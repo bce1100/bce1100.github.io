@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>熬夜企鹅</title>
+  
+  <subtitle>bce1100&#39;s blog</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2019-02-26T10:33:26.327Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>bce1100</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>hexo-admin安装</title>
+    <link href="http://yoursite.com/2019/02/26/hexo-admin%E5%AE%89%E8%A3%85/"/>
+    <id>http://yoursite.com/2019/02/26/hexo-admin安装/</id>
+    <published>2019-02-26T07:25:00.000Z</published>
+    <updated>2019-02-26T10:33:26.327Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="安装Hexo-Admin-插件"><a href="#安装Hexo-Admin-插件" class="headerlink" title="安装Hexo Admin 插件"></a>安装Hexo Admin 插件</h1><p>在hexo目录下输入如下命令：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install --save hexo-admin</span><br><span class="line">hexo server -d</span><br></pre></td></tr></table></figure><h1 id="设置后台登录账号密码"><a href="#设置后台登录账号密码" class="headerlink" title="设置后台登录账号密码"></a>设置后台登录账号密码</h1><img src="/2019/02/26/hexo-admin安装/pasted-0.png" title="图1"><ul><li>浏览器访问 <a href="http://localhost:4000/admin" target="_blank" rel="noopener">http://localhost:4000/admin</a> ，并点击Settings</li><li>填好登录账号、密码和加密字符串，并将下方生成的内容粘贴到根目录_config.yml下</li></ul><h1 id="hexo中图片插入"><a href="#hexo中图片插入" class="headerlink" title="hexo中图片插入"></a>hexo中图片插入</h1><ul><li><p>设置config.yml的post_asset_folder为true，开启资源文件夹功能</p></li><li><p>通过相对路径标签引用资源，而不是markdown语法引用。{\% asset_img 1.png [title] \%}上面的“\”要去掉，这里因为是hexo的指令，不能直接显示在文章里，所以这里才加上。</p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;安装Hexo-Admin-插件&quot;&gt;&lt;a href=&quot;#安装Hexo-Admin-插件&quot; class=&quot;headerlink&quot; title=&quot;安装Hexo Admin 插件&quot;&gt;&lt;/a&gt;安装Hexo Admin 插件&lt;/h1&gt;&lt;p&gt;在hexo目录下输入如下命令：&lt;/p
+      
+    
+    </summary>
+    
+    
+      <category term="test" scheme="http://yoursite.com/tags/test/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="http://yoursite.com/2019/02/26/hello-world/"/>
+    <id>http://yoursite.com/2019/02/26/hello-world/</id>
+    <published>2019-02-26T03:07:38.799Z</published>
+    <updated>2019-02-26T03:07:38.800Z</updated>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+</feed>
