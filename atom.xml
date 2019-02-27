@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-02-27T05:25:27.875Z</updated>
+  <updated>2019-02-27T09:34:52.987Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>每次hexo d部署后都要在github仓库上重新保存域名</title>
+    <link href="http://yoursite.com/2019/02/27/%E6%AC%A1hexo-d%E9%83%A8%E7%BD%B2%E5%90%8E%E9%83%BD%E8%A6%81%E5%9C%A8github%E4%BB%93%E5%BA%93%E4%B8%8A%E9%87%8D%E6%96%B0%E4%BF%9D%E5%AD%98%E5%9F%9F%E5%90%8D/"/>
+    <id>http://yoursite.com/2019/02/27/次hexo-d部署后都要在github仓库上重新保存域名/</id>
+    <published>2019-02-27T09:33:00.000Z</published>
+    <updated>2019-02-27T09:34:52.987Z</updated>
+    
+    <content type="html"><![CDATA[<p>解决办法：</p><ol><li>在根目录的source文件夹下新建一个CNAME文件，我使用的是Notepad++，内容就写自己的域名，保存时选all type</li><li>hexo g重新生成一下静态文件</li><li>hexo d部署上github</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;解决办法：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;在根目录的source文件夹下新建一个CNAME文件，我使用的是Notepad++，内容就写自己的域名，保存时选all type&lt;/li&gt;
+&lt;li&gt;hexo g重新生成一下静态文件&lt;/li&gt;
+&lt;li&gt;hexo d部署上github&lt;/l
+      
+    
+    </summary>
+    
+    
+      <category term="hexo" scheme="http://yoursite.com/tags/hexo/"/>
+    
+  </entry>
   
   <entry>
     <title>hexo-admin安装</title>

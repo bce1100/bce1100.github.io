@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[每次hexo d部署后都要在github仓库上重新保存域名]]></title>
+    <url>%2F2019%2F02%2F27%2F%E6%AC%A1hexo-d%E9%83%A8%E7%BD%B2%E5%90%8E%E9%83%BD%E8%A6%81%E5%9C%A8github%E4%BB%93%E5%BA%93%E4%B8%8A%E9%87%8D%E6%96%B0%E4%BF%9D%E5%AD%98%E5%9F%9F%E5%90%8D%2F</url>
+    <content type="text"><![CDATA[解决办法： 在根目录的source文件夹下新建一个CNAME文件，我使用的是Notepad++，内容就写自己的域名，保存时选all type hexo g重新生成一下静态文件 hexo d部署上github]]></content>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[hexo-admin安装]]></title>
     <url>%2F2019%2F02%2F26%2Fhexo-admin%E5%AE%89%E8%A3%85%2F</url>
     <content type="text"><![CDATA[安装Hexo Admin 插件在hexo目录下输入如下命令： 12npm install --save hexo-adminhexo server -d 设置后台登录账号密码 浏览器访问 http://localhost:4000/admin ，并点击Settings 填好登录账号、密码和加密字符串，并将下方生成的内容粘贴到根目录_config.yml下 hexo中图片插入 设置config.yml的post_asset_folder为true，开启资源文件夹功能 通过相对路径标签引用资源，而不是markdown语法引用。{\% asset_img 1.png [title] \%}上面的“\”要去掉，这里因为是hexo的指令，不能直接显示在文章里，所以这里才加上。]]></content>
