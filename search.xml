@@ -1,6 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[HTTP和HTTPS的区别]]></title>
+    <url>%2F2019%2F03%2F01%2FTP%E5%92%8CHTTPS%E7%9A%84%E5%8C%BA%E5%88%AB%2F</url>
+    <content type="text"><![CDATA[HTTP和HTTPS的区别SSL(Security Sockets Layer 安全套接层) 为网络通信提供安全及数据完整性的一种协议 是操作系统对外的API，SSL3.0后更名为TLS 采用身份验证和数据加密保证网络通信的安全性和数据的完整性 HTTPS数据传输流程 浏览器将支持的加密算法信息发送给服务器 服务器选择一套浏览器支持的加密算法，以证书的形式回发给浏览器 浏览器验证证书合法性，并结合证书公钥加密信息发送给服务器 服务器使用私钥解密信息，验证哈希，加密响应消息回发浏览器 浏览器解密响应消息，并对消息进行验证，之后进行加密交互数据 区别 HTTPS需要到CA申请证书，HTTP不需要 HTTPS密文传输，HTTP明文传输 连接方式不同，HTTPS默认端口443，HTTP默认端口80 HTTPS=HTTP+加密+认证+完整性保护，较HTTP安全]]></content>
+      <categories>
+        <category>计网</category>
+      </categories>
+      <tags>
+        <tag>计网</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Cookie和Session的区别]]></title>
+    <url>%2F2019%2F03%2F01%2Fokie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB%2F</url>
+    <content type="text"><![CDATA[Cookie和Session的区别Cookie简介 是由服务器发给客户端的特殊信息，以文本的形式存放在客户端 客户端再次请求的时候，会把Cookie回发 服务器接收到后，会解析Cookie生成与客户端相对应的内容 Session简介 服务端的机制，在服务器上保存的信息 解析客户端请求并操作session id，按需保存状态信息 Session的实现方式 使用cookie实现。服务器给每个session分配一个唯一的jsessionid，并通过cookie发送给客户端。当客户端发起新的请求的时候，将在cookie头中携带这个jsessionid，这样服务器能找到客户端对应的session。 使用URL回写来实现。URL回写是指服务器在发送给浏览器页面的所有链接中都携带jsessionid的参数，这样客户端点击任何一个链接，都会把jsessionid带回服务器。如果直接在浏览器输入服务端资源的URL来请求该资源，那么session是匹配不到的。tomcat对session的实现是一开始同时使用cookie和url回写机制。如果发现客户端支持cookie，就继续使用cookie，停止使用url回写。如果cookie被禁止就使用url回写。 区别 Cookie数据存放在客户的浏览器上（客户端），Session数据存放在服务器上。 Session相对于Cookie更安全。别人可以分析存放在本地的Cookie，并进行Cookie欺骗。若考虑到安全性应使用Session 若考虑到减轻服务器负担，应当使用Cookie。]]></content>
+      <categories>
+        <category>计网</category>
+      </categories>
+      <tags>
+        <tag>计网</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[GET请求和POST请求区别]]></title>
+    <url>%2F2019%2F03%2F01%2FT%E8%AF%B7%E6%B1%82%E5%92%8CPOST%E8%AF%B7%E6%B1%82%E5%8C%BA%E5%88%AB%2F</url>
+    <content type="text"><![CDATA[HTTP/1.1中对幂等性的定义是：一次和多次请求某一个资源对于资源本身应该具有同样的结果（网络超时等问题除外）。也就是说，其任意多次执行对资源本身所产生的影响均与一次执行的影响相同。 HTTP报文层面：GET将请求信息放在URL，POST放在报文体中 数据库层面：GET符合幂等性（对数据库的一次操作和多次操作获得的结果是一致的，则符合幂等性）和安全性（对数据库的操作没有改变数据库中的数据，则符合安全性），GET请求是做查询操作的，因此不会改变数据库中原有的数据，大致可认为符合幂等性和安全性；POST都不符合，POST请求会往数据库中提交数据，因此会改变数据库中的数据，其次POST请求方式每次获得的结果都有可能不一样，因为POST请求是作用在上一级的URL上的，则每一次请求都会添加一份新资源（这也是POST和PUT的最大区别，PUT是幂等的）。 其他层面：GET可以被缓存、被存储，而POST不行。]]></content>
+      <categories>
+        <category>计网</category>
+      </categories>
+      <tags>
+        <tag>计网</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[在浏览器地址键入URL，按下回车之后经历的流程]]></title>
+    <url>%2F2019%2F03%2F01%2F%E8%A7%88%E5%99%A8%E5%9C%B0%E5%9D%80%E9%94%AE%E5%85%A5URL%EF%BC%8C%E6%8C%89%E4%B8%8B%E5%9B%9E%E8%BD%A6%E4%B9%8B%E5%90%8E%E7%BB%8F%E5%8E%86%E7%9A%84%E6%B5%81%E7%A8%8B%2F</url>
+    <content type="text"><![CDATA[首先浏览器会依据URL逐层查询DNS服务器缓存，解析URL中的域名所对应的IP地址。DNS地址从近到远依次是浏览器缓存、系统缓存、路由器缓存、IPS服务器缓存、根域名服务器缓存、顶级域名服务器缓存，从哪个缓存找到对应的IP则直接返回，不再查询后面的缓存。 找到IP地址后，根据IP地址和对应端口(默认80端口)和服务器建立TCP连接。（可结合TCP三次握手） 浏览器发出读取文件的HTTP请求，该请求发送给服务器。 服务器对浏览器请求作出响应，并把对应的带有HTML文本的HTTP响应报文发送给浏览器。 浏览器解析HTML渲染页面 浏览器释放TCP连接（TCP四次挥手）]]></content>
+      <categories>
+        <category>计网</category>
+      </categories>
+      <tags>
+        <tag>计网</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[TCP和UDP区别]]></title>
     <url>%2F2019%2F03%2F01%2FCP%E5%92%8CUDP%E5%8C%BA%E5%88%AB%2F</url>
     <content type="text"><![CDATA[TCP和UDP区别首先了解一下UDP特点 面向非连接的协议，传输数据之前源端和终端无建立连接 不维护连接状态，支持同时向多个客户端传输相同的消息 数据包报头只有8个字节，额外开销小 吞吐量只受限于数据生成速率、传输速率以及机器性能 尽最大努力交付，不保证可靠交付，不需要维护复制的链接状态表 面向报文，不对应用程序提交的报文信息进行拆分或合并(发送方的UDP对应用程序交下来的报文在添加首部后就向下交付给IP层，既不拆分也不合并，而是保留这些报文的边界，因此应用程序需要选择合适的报文大小) 区别 TCP面向连接，UDP无连接。TCP有三次握手的连接过程；UDP适合消息的多拨发布，从单个点向多个点传输信息。 可靠性。TCP是可靠的，利用握手确认和重传机制提供了可靠性保证；而UDP则可能会丢失数据包，不知道有没有被接收。 有序性。TCP利用序列号保证了消息报的顺序交付，到达时可能无序，但TCP最终会排序；UDP不具备有序性。 速度。TCP速度比较慢，因为要创建连接保证消息的可靠性和有序性，需要做额外的事情就比较慢；UDP更适合对于速度比较敏感的应用，比如在线视频媒体，电视广播，多人在线游戏等。 量级。TCP属于重量级，UDP属于轻量级。体现在元数据的头大小，TCP是20个字节，而UDP是8个字节。]]></content>

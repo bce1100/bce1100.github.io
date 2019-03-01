@@ -425,8 +425,6 @@
                 
               
                 
-              
-                
                   
                 
               
@@ -445,7 +443,7 @@
               目前共计 7 个标签
             </div>
             <div class="tag-cloud-tags">
-              <a href="/tags/hexo/" style="font-size: 30px; color: #111">hexo</a> <a href="/tags/init/" style="font-size: 12px; color: #ccc">init</a> <a href="/tags/java/" style="font-size: 12px; color: #ccc">java</a> <a href="/tags/linux/" style="font-size: 12px; color: #ccc">linux</a> <a href="/tags/springmvc/" style="font-size: 12px; color: #ccc">springmvc</a> <a href="/tags/ssm/" style="font-size: 12px; color: #ccc">ssm</a> <a href="/tags/计网/" style="font-size: 30px; color: #111">计网</a>
+              <a href="/tags/hexo/" style="font-size: 21px; color: #6f6f6f">hexo</a> <a href="/tags/init/" style="font-size: 12px; color: #ccc">init</a> <a href="/tags/java/" style="font-size: 12px; color: #ccc">java</a> <a href="/tags/linux/" style="font-size: 12px; color: #ccc">linux</a> <a href="/tags/springmvc/" style="font-size: 12px; color: #ccc">springmvc</a> <a href="/tags/ssm/" style="font-size: 12px; color: #ccc">ssm</a> <a href="/tags/计网/" style="font-size: 30px; color: #111">计网</a>
             </div>
           </div>
         
@@ -503,7 +501,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -536,8 +534,6 @@
                 <div class="site-state-item site-state-tags">
                   <a href="/tags/index.html">
                     
-                    
-                      
                     
                       
                     
@@ -608,7 +604,9 @@
         seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
         snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
         document.getElementById("timeDate").innerHTML = "已经存活"+dnum+"天"; 
+		document.getElementById("timeDate").style.fontWeight = "bold";
         document.getElementById("times").innerHTML = hnum + "小时" + mnum + "分" + snum + "秒"; 
+		document.getElementById("times").style.fontWeight = "bold";
     } 
 setInterval("createtime()",250);
 </script>
@@ -650,7 +648,7 @@ setInterval("createtime()",250);
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">12k</span>
+    <span title="站点总字数">13k</span>
   
 
   
@@ -659,7 +657,7 @@ setInterval("createtime()",250);
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">11 分钟</span>
+    <span title="站点阅读时长">12 分钟</span>
   
 </div>
 

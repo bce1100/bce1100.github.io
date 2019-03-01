@@ -657,7 +657,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -690,8 +690,6 @@
                 <div class="site-state-item site-state-tags">
                   <a href="/tags/index.html">
                     
-                    
-                      
                     
                       
                     
@@ -762,7 +760,9 @@
         seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
         snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
         document.getElementById("timeDate").innerHTML = "已经存活"+dnum+"天"; 
+		document.getElementById("timeDate").style.fontWeight = "bold";
         document.getElementById("times").innerHTML = hnum + "小时" + mnum + "分" + snum + "秒"; 
+		document.getElementById("times").style.fontWeight = "bold";
     } 
 setInterval("createtime()",250);
 </script>
@@ -821,7 +821,7 @@ setInterval("createtime()",250);
       <i class="fa fa-area-chart"></i>
     </span>
     
-    <span title="站点总字数">12k</span>
+    <span title="站点总字数">13k</span>
   
 
   
@@ -830,7 +830,7 @@ setInterval("createtime()",250);
       <i class="fa fa-coffee"></i>
     </span>
     
-    <span title="站点阅读时长">11 分钟</span>
+    <span title="站点阅读时长">12 分钟</span>
   
 </div>
 
