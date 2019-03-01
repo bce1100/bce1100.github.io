@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-02-28T08:14:04.196Z</updated>
+  <updated>2019-03-01T03:11:51.555Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,11 +17,36 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>TCP和UDP区别</title>
+    <link href="http://yoursite.com/2019/03/01/CP%E5%92%8CUDP%E5%8C%BA%E5%88%AB/"/>
+    <id>http://yoursite.com/2019/03/01/CP和UDP区别/</id>
+    <published>2019-03-01T03:10:00.000Z</published>
+    <updated>2019-03-01T03:11:51.555Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="TCP和UDP区别"><a href="#TCP和UDP区别" class="headerlink" title="TCP和UDP区别"></a>TCP和UDP区别</h1><h2 id="首先了解一下UDP特点"><a href="#首先了解一下UDP特点" class="headerlink" title="首先了解一下UDP特点"></a>首先了解一下UDP特点</h2><ol><li>面向非连接的协议，传输数据之前源端和终端无建立连接</li><li>不维护连接状态，支持同时向多个客户端传输相同的消息</li><li>数据包报头只有8个字节，额外开销小</li><li>吞吐量只受限于数据生成速率、传输速率以及机器性能</li><li>尽最大努力交付，不保证可靠交付，不需要维护复制的链接状态表</li><li>面向报文，不对应用程序提交的报文信息进行拆分或合并(发送方的UDP对应用程序交下来的报文在添加首部后就向下交付给IP层，既不拆分也不合并，而是保留这些报文的边界，因此应用程序需要选择合适的报文大小)</li></ol><h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><ol><li>TCP面向连接，UDP无连接。TCP有三次握手的连接过程；UDP适合消息的多拨发布，从单个点向多个点传输信息。</li><li>可靠性。TCP是可靠的，利用握手确认和重传机制提供了可靠性保证；而UDP则可能会丢失数据包，不知道有没有被接收。</li><li>有序性。TCP利用序列号保证了消息报的顺序交付，到达时可能无序，但TCP最终会排序；UDP不具备有序性。</li><li>速度。TCP速度比较慢，因为要创建连接保证消息的可靠性和有序性，需要做额外的事情就比较慢；UDP更适合对于速度比较敏感的应用，比如在线视频媒体，电视广播，多人在线游戏等。</li><li>量级。TCP属于重量级，UDP属于轻量级。体现在元数据的头大小，TCP是20个字节，而UDP是8个字节。</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;TCP和UDP区别&quot;&gt;&lt;a href=&quot;#TCP和UDP区别&quot; class=&quot;headerlink&quot; title=&quot;TCP和UDP区别&quot;&gt;&lt;/a&gt;TCP和UDP区别&lt;/h1&gt;&lt;h2 id=&quot;首先了解一下UDP特点&quot;&gt;&lt;a href=&quot;#首先了解一下UDP特点&quot; c
+      
+    
+    </summary>
+    
+      <category term="计网" scheme="http://yoursite.com/categories/%E8%AE%A1%E7%BD%91/"/>
+    
+    
+      <category term="计网" scheme="http://yoursite.com/tags/%E8%AE%A1%E7%BD%91/"/>
+    
+  </entry>
+  
+  <entry>
     <title>TCP握手和挥手</title>
     <link href="http://yoursite.com/2019/02/28/CP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/"/>
     <id>http://yoursite.com/2019/02/28/CP三次握手/</id>
     <published>2019-02-28T07:46:00.000Z</published>
-    <updated>2019-02-28T08:14:04.196Z</updated>
+    <updated>2019-03-01T03:11:40.040Z</updated>
     
     <content type="html"><![CDATA[<h1 id="TCP三次握手"><a href="#TCP三次握手" class="headerlink" title="TCP三次握手"></a>TCP三次握手</h1><p>在TCP/IP协议中，TCP协议提供可靠的连接服务，采用三次握手建立一个连接。TCP三次握手大概流程：</p><ol><li>第一次握手：建立连接时，客户端发送SYN包（syn = j）到服务器，并进入SYN_SEND状态，等待服务器确认；</li><li>第二次握手：服务器收到SYN包，必须确认客户端的SYN（ack = j+1），同时自己也发送一个SYN包（syn = k），即SYN+ACK包，此时服务器进入SYN_RECV状态；</li><li>第三次握手：客户端收到服务器的ACK+SYN包，向服务器发送确认包ACK（ack = k+1），此包发送完毕，客户端和服务器都进入ESTABLISHED状态，完成三次握手。</li></ol><h2 id="为什么要三次握手才能建立连接"><a href="#为什么要三次握手才能建立连接" class="headerlink" title="为什么要三次握手才能建立连接"></a>为什么要三次握手才能建立连接</h2><p>​    主要是为了初始化Sequence Number的初始值。通信的双方要互相通知对方自己初始化的Sequence Number，作为以后数据通信的序号，以保证应用层接收的数据不会因为网络上的传输问题而乱序。即TCP会用这个序号来拼接数据。因此在服务器回发他的Sequence Number即第二次握手之后，客户端还需要发送确认报文给服务器，告诉服务器客户端已经收到你初始化的Sequence Number了。</p><h1 id="TCP四次挥手"><a href="#TCP四次挥手" class="headerlink" title="TCP四次挥手"></a>TCP四次挥手</h1><p>TCP采用四次挥手来释放连接（客户端或服务器都可以提出终止连接的请求，以下假定为客户端发送）</p><ol><li>第一次挥手：客户端发送一个FIN，用来关闭客户端到服务器的数据传送，客户端进入FIN_WAIT_1状态；</li><li>第二次挥手：服务器收到FIN后，发送一个ACK给客户端，确认序号为收到序号+1（与SYN相同，一个FIN占用一个序号），服务器进入CLOSE_WAIT状态；</li><li>第三次挥手：服务器发送一个FIN，用来关闭服务器到客户端的数据传送，服务器进入LAST_ACK状态；</li><li>第四次挥手：客户端收到FIN后，客户端进入TIME_WAIT状态，接着发送一个ACK给服务器，确认序号为收到序号+1，服务器进入CLOSED状态，完成四次挥手。</li></ol><h2 id="为什么会有TIME-WAIT状态"><a href="#为什么会有TIME-WAIT状态" class="headerlink" title="为什么会有TIME_WAIT状态"></a>为什么会有TIME_WAIT状态</h2><ol><li>确保有足够的时间让对方收到ACK包</li><li>避免新旧连接混淆</li></ol><h2 id="为什么需要四次握手才能断开连接"><a href="#为什么需要四次握手才能断开连接" class="headerlink" title="为什么需要四次握手才能断开连接"></a>为什么需要四次握手才能断开连接</h2><p>因为全双工，发送方和接收方都需要FIN报文和ACK报文</p>]]></content>
     
@@ -34,8 +59,10 @@
     
     </summary>
     
+      <category term="计网" scheme="http://yoursite.com/categories/%E8%AE%A1%E7%BD%91/"/>
     
-      <category term="tcp/ip" scheme="http://yoursite.com/tags/tcp-ip/"/>
+    
+      <category term="计网" scheme="http://yoursite.com/tags/%E8%AE%A1%E7%BD%91/"/>
     
   </entry>
   
