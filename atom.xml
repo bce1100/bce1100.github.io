@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-03-01T08:23:33.700Z</updated>
+  <updated>2019-03-05T09:30:21.033Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>索引</title>
+    <link href="http://yoursite.com/2019/03/05/%E5%BC%95/"/>
+    <id>http://yoursite.com/2019/03/05/引/</id>
+    <published>2019-03-05T09:29:00.000Z</published>
+    <updated>2019-03-05T09:30:21.033Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="为什么使用索引"><a href="#为什么使用索引" class="headerlink" title="为什么使用索引"></a>为什么使用索引</h1><p>进行全表扫描时会把数据库多块/页加载读取，然后逐个块去轮询找到目标并返回。这种方式在数据量大时会很慢的。要避免全表扫描的发生就要使用索引快速查询数据。</p><h1 id="索引的数据结构"><a href="#索引的数据结构" class="headerlink" title="索引的数据结构"></a>索引的数据结构</h1><ol><li>二叉查找树及其变种平衡二叉树、红黑树等</li><li>B-Tree</li><li>B+-Tree（MySql）</li><li>Hash结构</li></ol><p>二叉树的结构的时间复杂度可能会比较低，但是数据量大时避免不了树的高度过深，这样磁盘的IO次数就会增多，数据库查询的速率还是会很慢。因此还是要看B-Tree/B+-Tree……</p><h1 id="B-Tree更适合用来做存储索引"><a href="#B-Tree更适合用来做存储索引" class="headerlink" title="B+-Tree更适合用来做存储索引"></a>B+-Tree更适合用来做存储索引</h1><ol><li>B+树的磁盘读写代价更低</li><li>B+树的查询效率更加稳定 O(logn)，因为只有叶子节点才存储文件内容，所以任何关键字的查找必须走一条从根节点到叶子节点的路。</li><li>B+树更有利于对数据库的扫描。B树在提高了磁盘IO性能时，并没有解决元素遍历效率低下的问题。B+树只要遍历叶子节点就可以解决对全部关键字信息的扫描。所以对于数据库中频繁使用的范围查询有更高的性能。</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;为什么使用索引&quot;&gt;&lt;a href=&quot;#为什么使用索引&quot; class=&quot;headerlink&quot; title=&quot;为什么使用索引&quot;&gt;&lt;/a&gt;为什么使用索引&lt;/h1&gt;&lt;p&gt;进行全表扫描时会把数据库多块/页加载读取，然后逐个块去轮询找到目标并返回。这种方式在数据量大时会很慢
+      
+    
+    </summary>
+    
+      <category term="数据库" scheme="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+    
+      <category term="索引" scheme="http://yoursite.com/tags/%E7%B4%A2%E5%BC%95/"/>
+    
+      <category term="数据库" scheme="http://yoursite.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+  </entry>
   
   <entry>
     <title>HTTP和HTTPS的区别</title>
