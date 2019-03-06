@@ -254,18 +254,15 @@
     <link href="http://yoursite.com/2019/02/28/%E6%97%A5%E5%B8%B8%E7%94%A8LINUX%E5%91%BD%E4%BB%A4/"/>
     <id>http://yoursite.com/2019/02/28/日常用LINUX命令/</id>
     <published>2019-02-28T05:59:00.000Z</published>
-    <updated>2019-02-28T06:01:59.846Z</updated>
+    <updated>2019-03-06T06:58:03.628Z</updated>
     
-    <content type="html"><![CDATA[<p>查看tomcat进程：<code>ps -ef | grep tomcat</code></p><p>整行删除：CTRL K，光标往后删除；CTRL U，光标往前删</p><p>删除当前文件夹下所有文件：<code>rm -f *</code></p><p>删除文件夹及内容：<code>rm -fr *</code></p><p>实时查看文件内容尾：<code>tail -f filename</code></p><p>查看服务器对外ip：<code>curl ifconfig.me</code></p>]]></content>
+    <content type="html"><![CDATA[<p>查看tomcat进程：<code>ps -ef | grep tomcat</code>（ps -ef 命令就是列出当前所有的进程信息，grep 起到一个过滤的文件）；<code>ps -ef | grep tomcat | grep -v &quot;grep&quot;</code> 可把grep本身指令也过滤掉</p><p>管道操作符 | ：可将指令连接起来，前一个指令的输出作为后一个指令的输入</p><p>整行删除：CTRL K，光标往后删除；CTRL U，光标往前删</p><p>删除当前文件夹下所有文件：<code>rm -f *</code></p><p>删除文件夹及内容：<code>rm -fr *</code></p><p>实时查看文件内容尾：<code>tail -f filename</code></p><p>查看服务器对外ip：<code>curl ifconfig.me</code></p><p>比较实用的指令：grep；find；awk；sed；|</p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;查看tomcat进程：&lt;code&gt;ps -ef | grep tomcat&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;整行删除：CTRL K，光标往后删除；CTRL U，光标往前删&lt;/p&gt;
-&lt;p&gt;删除当前文件夹下所有文件：&lt;code&gt;rm -f *&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;删除文件夹
+        &lt;p&gt;查看tomcat进程：&lt;code&gt;ps -ef | grep tomcat&lt;/code&gt;（ps -ef 命令就是列出当前所有的进程信息，grep 起到一个过滤的文件）；&lt;code&gt;ps -ef | grep tomcat | grep -v &amp;quot;grep&amp;quot;
       
     
     </summary>
@@ -311,7 +308,7 @@
     <published>2019-02-26T07:25:00.000Z</published>
     <updated>2019-02-27T05:25:27.875Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="安装Hexo-Admin-插件"><a href="#安装Hexo-Admin-插件" class="headerlink" title="安装Hexo Admin 插件"></a>安装Hexo Admin 插件</h1><p>在hexo目录下输入如下命令：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install --save hexo-admin</span><br><span class="line">hexo server -d</span><br></pre></td></tr></table></figure><h1 id="设置后台登录账号密码"><a href="#设置后台登录账号密码" class="headerlink" title="设置后台登录账号密码"></a>设置后台登录账号密码</h1><img src="/bce1100.github.io/2019/02/26/hexo-admin安装/pasted-0.png" title="图1"><ul><li>浏览器访问 <a href="http://localhost:4000/admin" target="_blank" rel="noopener">http://localhost:4000/admin</a> ，并点击Settings</li><li>填好登录账号、密码和加密字符串，并将下方生成的内容粘贴到根目录_config.yml下</li></ul><h1 id="hexo中图片插入"><a href="#hexo中图片插入" class="headerlink" title="hexo中图片插入"></a>hexo中图片插入</h1><ul><li><p>设置config.yml的post_asset_folder为true，开启资源文件夹功能</p></li><li><p>通过相对路径标签引用资源，而不是markdown语法引用。{\% asset_img 1.png [title] \%}上面的“\”要去掉，这里因为是hexo的指令，不能直接显示在文章里，所以这里才加上。</p></li></ul>]]></content>
+    <content type="html"><![CDATA[<h1 id="安装Hexo-Admin-插件"><a href="#安装Hexo-Admin-插件" class="headerlink" title="安装Hexo Admin 插件"></a>安装Hexo Admin 插件</h1><p>在hexo目录下输入如下命令：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install --save hexo-admin</span><br><span class="line">hexo server -d</span><br></pre></td></tr></table></figure><h1 id="设置后台登录账号密码"><a href="#设置后台登录账号密码" class="headerlink" title="设置后台登录账号密码"></a>设置后台登录账号密码</h1><img src="/2019/02/26/hexo-admin安装/pasted-0.png" title="图1"><ul><li>浏览器访问 <a href="http://localhost:4000/admin" target="_blank" rel="noopener">http://localhost:4000/admin</a> ，并点击Settings</li><li>填好登录账号、密码和加密字符串，并将下方生成的内容粘贴到根目录_config.yml下</li></ul><h1 id="hexo中图片插入"><a href="#hexo中图片插入" class="headerlink" title="hexo中图片插入"></a>hexo中图片插入</h1><ul><li><p>设置config.yml的post_asset_folder为true，开启资源文件夹功能</p></li><li><p>通过相对路径标签引用资源，而不是markdown语法引用。{\% asset_img 1.png [title] \%}上面的“\”要去掉，这里因为是hexo的指令，不能直接显示在文章里，所以这里才加上。</p></li></ul>]]></content>
     
     <summary type="html">
     
