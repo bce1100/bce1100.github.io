@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title><![CDATA[索引]]></title>
-    <url>%2F2019%2F03%2F05%2F%E5%BC%95%2F</url>
+    <url>%2Fbce1100.github.io%2F2019%2F03%2F05%2F%E5%BC%95%2F</url>
     <content type="text"><![CDATA[为什么使用索引进行全表扫描时会把数据库多块/页加载读取，然后逐个块去轮询找到目标并返回。这种方式在数据量大时会很慢的。要避免全表扫描的发生就要使用索引快速查询数据。 索引的数据结构 二叉查找树及其变种平衡二叉树、红黑树等 B-Tree B+-Tree（MySql） Hash结构 二叉树的结构的时间复杂度可能会比较低，但是数据量大时避免不了树的高度过深，这样磁盘的IO次数就会增多，数据库查询的速率还是会很慢。因此还是要看B-Tree/B+-Tree…… B+-Tree更适合用来做存储索引 B+树的磁盘读写代价更低 B+树的查询效率更加稳定 O(logn)，因为只有叶子节点才存储文件内容，所以任何关键字的查找必须走一条从根节点到叶子节点的路。 B+树更有利于对数据库的扫描。B树在提高了磁盘IO性能时，并没有解决元素遍历效率低下的问题。B+树只要遍历叶子节点就可以解决对全部关键字信息的扫描。所以对于数据库中频繁使用的范围查询有更高的性能。]]></content>
       <categories>
         <category>数据库</category>
@@ -14,7 +14,7 @@
   </entry>
   <entry>
     <title><![CDATA[HTTP和HTTPS的区别]]></title>
-    <url>%2F2019%2F03%2F01%2FTP%E5%92%8CHTTPS%E7%9A%84%E5%8C%BA%E5%88%AB%2F</url>
+    <url>%2Fbce1100.github.io%2F2019%2F03%2F01%2FTP%E5%92%8CHTTPS%E7%9A%84%E5%8C%BA%E5%88%AB%2F</url>
     <content type="text"><![CDATA[HTTP和HTTPS的区别SSL(Security Sockets Layer 安全套接层) 为网络通信提供安全及数据完整性的一种协议 是操作系统对外的API，SSL3.0后更名为TLS 采用身份验证和数据加密保证网络通信的安全性和数据的完整性 HTTPS数据传输流程 浏览器将支持的加密算法信息发送给服务器 服务器选择一套浏览器支持的加密算法，以证书的形式回发给浏览器 浏览器验证证书合法性，并结合证书公钥加密信息发送给服务器 服务器使用私钥解密信息，验证哈希，加密响应消息回发浏览器 浏览器解密响应消息，并对消息进行验证，之后进行加密交互数据 区别 HTTPS需要到CA申请证书，HTTP不需要 HTTPS密文传输，HTTP明文传输 连接方式不同，HTTPS默认端口443，HTTP默认端口80 HTTPS=HTTP+加密+认证+完整性保护，较HTTP安全]]></content>
       <categories>
         <category>计网</category>
@@ -25,7 +25,7 @@
   </entry>
   <entry>
     <title><![CDATA[Cookie和Session的区别]]></title>
-    <url>%2F2019%2F03%2F01%2Fokie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB%2F</url>
+    <url>%2Fbce1100.github.io%2F2019%2F03%2F01%2Fokie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB%2F</url>
     <content type="text"><![CDATA[Cookie和Session的区别Cookie简介 是由服务器发给客户端的特殊信息，以文本的形式存放在客户端 客户端再次请求的时候，会把Cookie回发 服务器接收到后，会解析Cookie生成与客户端相对应的内容 Session简介 服务端的机制，在服务器上保存的信息 解析客户端请求并操作session id，按需保存状态信息 Session的实现方式 使用cookie实现。服务器给每个session分配一个唯一的jsessionid，并通过cookie发送给客户端。当客户端发起新的请求的时候，将在cookie头中携带这个jsessionid，这样服务器能找到客户端对应的session。 使用URL回写来实现。URL回写是指服务器在发送给浏览器页面的所有链接中都携带jsessionid的参数，这样客户端点击任何一个链接，都会把jsessionid带回服务器。如果直接在浏览器输入服务端资源的URL来请求该资源，那么session是匹配不到的。tomcat对session的实现是一开始同时使用cookie和url回写机制。如果发现客户端支持cookie，就继续使用cookie，停止使用url回写。如果cookie被禁止就使用url回写。 区别 Cookie数据存放在客户的浏览器上（客户端），Session数据存放在服务器上。 Session相对于Cookie更安全。别人可以分析存放在本地的Cookie，并进行Cookie欺骗。若考虑到安全性应使用Session 若考虑到减轻服务器负担，应当使用Cookie。]]></content>
       <categories>
         <category>计网</category>
@@ -36,7 +36,7 @@
   </entry>
   <entry>
     <title><![CDATA[GET请求和POST请求区别]]></title>
-    <url>%2F2019%2F03%2F01%2FT%E8%AF%B7%E6%B1%82%E5%92%8CPOST%E8%AF%B7%E6%B1%82%E5%8C%BA%E5%88%AB%2F</url>
+    <url>%2Fbce1100.github.io%2F2019%2F03%2F01%2FT%E8%AF%B7%E6%B1%82%E5%92%8CPOST%E8%AF%B7%E6%B1%82%E5%8C%BA%E5%88%AB%2F</url>
     <content type="text"><![CDATA[HTTP/1.1中对幂等性的定义是：一次和多次请求某一个资源对于资源本身应该具有同样的结果（网络超时等问题除外）。也就是说，其任意多次执行对资源本身所产生的影响均与一次执行的影响相同。 HTTP报文层面：GET将请求信息放在URL，POST放在报文体中 数据库层面：GET符合幂等性（对数据库的一次操作和多次操作获得的结果是一致的，则符合幂等性）和安全性（对数据库的操作没有改变数据库中的数据，则符合安全性），GET请求是做查询操作的，因此不会改变数据库中原有的数据，大致可认为符合幂等性和安全性；POST都不符合，POST请求会往数据库中提交数据，因此会改变数据库中的数据，其次POST请求方式每次获得的结果都有可能不一样，因为POST请求是作用在上一级的URL上的，则每一次请求都会添加一份新资源（这也是POST和PUT的最大区别，PUT是幂等的）。 其他层面：GET可以被缓存、被存储，而POST不行。]]></content>
       <categories>
         <category>计网</category>
@@ -47,7 +47,7 @@
   </entry>
   <entry>
     <title><![CDATA[在浏览器地址键入URL，按下回车之后经历的流程]]></title>
-    <url>%2F2019%2F03%2F01%2F%E8%A7%88%E5%99%A8%E5%9C%B0%E5%9D%80%E9%94%AE%E5%85%A5URL%EF%BC%8C%E6%8C%89%E4%B8%8B%E5%9B%9E%E8%BD%A6%E4%B9%8B%E5%90%8E%E7%BB%8F%E5%8E%86%E7%9A%84%E6%B5%81%E7%A8%8B%2F</url>
+    <url>%2Fbce1100.github.io%2F2019%2F03%2F01%2F%E8%A7%88%E5%99%A8%E5%9C%B0%E5%9D%80%E9%94%AE%E5%85%A5URL%EF%BC%8C%E6%8C%89%E4%B8%8B%E5%9B%9E%E8%BD%A6%E4%B9%8B%E5%90%8E%E7%BB%8F%E5%8E%86%E7%9A%84%E6%B5%81%E7%A8%8B%2F</url>
     <content type="text"><![CDATA[首先浏览器会依据URL逐层查询DNS服务器缓存，解析URL中的域名所对应的IP地址。DNS地址从近到远依次是浏览器缓存、系统缓存、路由器缓存、IPS服务器缓存、根域名服务器缓存、顶级域名服务器缓存，从哪个缓存找到对应的IP则直接返回，不再查询后面的缓存。 找到IP地址后，根据IP地址和对应端口(默认80端口)和服务器建立TCP连接。（可结合TCP三次握手） 浏览器发出读取文件的HTTP请求，该请求发送给服务器。 服务器对浏览器请求作出响应，并把对应的带有HTML文本的HTTP响应报文发送给浏览器。 浏览器解析HTML渲染页面 浏览器释放TCP连接（TCP四次挥手）]]></content>
       <categories>
         <category>计网</category>
@@ -58,7 +58,7 @@
   </entry>
   <entry>
     <title><![CDATA[TCP和UDP区别]]></title>
-    <url>%2F2019%2F03%2F01%2FCP%E5%92%8CUDP%E5%8C%BA%E5%88%AB%2F</url>
+    <url>%2Fbce1100.github.io%2F2019%2F03%2F01%2FCP%E5%92%8CUDP%E5%8C%BA%E5%88%AB%2F</url>
     <content type="text"><![CDATA[TCP和UDP区别首先了解一下UDP特点 面向非连接的协议，传输数据之前源端和终端无建立连接 不维护连接状态，支持同时向多个客户端传输相同的消息 数据包报头只有8个字节，额外开销小 吞吐量只受限于数据生成速率、传输速率以及机器性能 尽最大努力交付，不保证可靠交付，不需要维护复制的链接状态表 面向报文，不对应用程序提交的报文信息进行拆分或合并(发送方的UDP对应用程序交下来的报文在添加首部后就向下交付给IP层，既不拆分也不合并，而是保留这些报文的边界，因此应用程序需要选择合适的报文大小) 区别 TCP面向连接，UDP无连接。TCP有三次握手的连接过程；UDP适合消息的多拨发布，从单个点向多个点传输信息。 可靠性。TCP是可靠的，利用握手确认和重传机制提供了可靠性保证；而UDP则可能会丢失数据包，不知道有没有被接收。 有序性。TCP利用序列号保证了消息报的顺序交付，到达时可能无序，但TCP最终会排序；UDP不具备有序性。 速度。TCP速度比较慢，因为要创建连接保证消息的可靠性和有序性，需要做额外的事情就比较慢；UDP更适合对于速度比较敏感的应用，比如在线视频媒体，电视广播，多人在线游戏等。 量级。TCP属于重量级，UDP属于轻量级。体现在元数据的头大小，TCP是20个字节，而UDP是8个字节。]]></content>
       <categories>
         <category>计网</category>
@@ -69,7 +69,7 @@
   </entry>
   <entry>
     <title><![CDATA[TCP握手和挥手]]></title>
-    <url>%2F2019%2F02%2F28%2FCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%2F</url>
+    <url>%2Fbce1100.github.io%2F2019%2F02%2F28%2FCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%2F</url>
     <content type="text"><![CDATA[TCP三次握手在TCP/IP协议中，TCP协议提供可靠的连接服务，采用三次握手建立一个连接。TCP三次握手大概流程： 第一次握手：建立连接时，客户端发送SYN包（syn = j）到服务器，并进入SYN_SEND状态，等待服务器确认； 第二次握手：服务器收到SYN包，必须确认客户端的SYN（ack = j+1），同时自己也发送一个SYN包（syn = k），即SYN+ACK包，此时服务器进入SYN_RECV状态； 第三次握手：客户端收到服务器的ACK+SYN包，向服务器发送确认包ACK（ack = k+1），此包发送完毕，客户端和服务器都进入ESTABLISHED状态，完成三次握手。 为什么要三次握手才能建立连接​ 主要是为了初始化Sequence Number的初始值。通信的双方要互相通知对方自己初始化的Sequence Number，作为以后数据通信的序号，以保证应用层接收的数据不会因为网络上的传输问题而乱序。即TCP会用这个序号来拼接数据。因此在服务器回发他的Sequence Number即第二次握手之后，客户端还需要发送确认报文给服务器，告诉服务器客户端已经收到你初始化的Sequence Number了。 TCP四次挥手TCP采用四次挥手来释放连接（客户端或服务器都可以提出终止连接的请求，以下假定为客户端发送） 第一次挥手：客户端发送一个FIN，用来关闭客户端到服务器的数据传送，客户端进入FIN_WAIT_1状态； 第二次挥手：服务器收到FIN后，发送一个ACK给客户端，确认序号为收到序号+1（与SYN相同，一个FIN占用一个序号），服务器进入CLOSE_WAIT状态； 第三次挥手：服务器发送一个FIN，用来关闭服务器到客户端的数据传送，服务器进入LAST_ACK状态； 第四次挥手：客户端收到FIN后，客户端进入TIME_WAIT状态，接着发送一个ACK给服务器，确认序号为收到序号+1，服务器进入CLOSED状态，完成四次挥手。 为什么会有TIME_WAIT状态 确保有足够的时间让对方收到ACK包 避免新旧连接混淆 为什么需要四次握手才能断开连接因为全双工，发送方和接收方都需要FIN报文和ACK报文]]></content>
       <categories>
         <category>计网</category>
@@ -80,7 +80,7 @@
   </entry>
   <entry>
     <title><![CDATA[ssm整合配置文件参考]]></title>
-    <url>%2F2019%2F02%2F28%2Fm%E6%95%B4%E5%90%88%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%8F%82%E8%80%83%2F</url>
+    <url>%2Fbce1100.github.io%2F2019%2F02%2F28%2Fm%E6%95%B4%E5%90%88%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%8F%82%E8%80%83%2F</url>
     <content type="text"><![CDATA[web.xml:123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133134135136137138139140141142143144145146147148149150151152153&lt;?xml version="1.0" encoding="UTF-8"?&gt;-&lt;web-app version="2.5" id="WebApp_ID" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;-&lt;welcome-file-list&gt;&lt;welcome-file&gt;login.jsp&lt;/welcome-file&gt;&lt;/welcome-file-list&gt;&lt;!-- 1启动spring容器 --&gt;&lt;!-- needed for ContextLoaderListener --&gt;-&lt;context-param&gt;&lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;&lt;param-value&gt;classpath:applicationContext.xml&lt;/param-value&gt;&lt;/context-param&gt;&lt;!-- Bootstraps the root web application context before servlet initialization --&gt;-&lt;listener&gt;&lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;&lt;/listener&gt;&lt;!-- 2 springmvc的前端控制器，拦截所有请求 --&gt;&lt;!-- The front controller of this Spring Web application, responsible forhandling all application requests --&gt;-&lt;servlet&gt;&lt;servlet-name&gt;dispatcherServlet&lt;/servlet-name&gt;&lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/servlet-class&gt;&lt;load-on-startup&gt;1&lt;/load-on-startup&gt;&lt;/servlet&gt;&lt;!-- Map all requests to the DispatcherServlet for handling --&gt;-&lt;servlet-mapping&gt;&lt;servlet-name&gt;dispatcherServlet&lt;/servlet-name&gt;&lt;url-pattern&gt;/&lt;/url-pattern&gt;&lt;/servlet-mapping&gt;&lt;!-- 3字符编码过滤器 必须放在所有过滤器之前 --&gt;-&lt;filter&gt;&lt;filter-name&gt;CharacterEncodingFilter&lt;/filter-name&gt;&lt;filter-class&gt;org.springframework.web.filter.CharacterEncodingFilter&lt;/filter-class&gt;-&lt;init-param&gt;&lt;param-name&gt;encoding&lt;/param-name&gt;&lt;param-value&gt;UTF-8&lt;/param-value&gt;&lt;/init-param&gt;-&lt;init-param&gt;&lt;param-name&gt;forceRequestEncoding&lt;/param-name&gt;&lt;param-value&gt;true&lt;/param-value&gt;&lt;/init-param&gt;-&lt;init-param&gt;&lt;param-name&gt;forceResponseEncoding&lt;/param-name&gt;&lt;param-value&gt;true&lt;/param-value&gt;&lt;/init-param&gt;&lt;/filter&gt;-&lt;filter-mapping&gt;&lt;filter-name&gt;CharacterEncodingFilter&lt;/filter-name&gt;&lt;url-pattern&gt;/*&lt;/url-pattern&gt;&lt;/filter-mapping&gt;&lt;!-- 4rest风格 将页面普通的 post请求转为指定的delete或put请求 --&gt;-&lt;filter&gt;&lt;filter-name&gt;HiddenHttpMethodFilter&lt;/filter-name&gt;&lt;filter-class&gt;org.springframework.web.filter.HiddenHttpMethodFilter&lt;/filter-class&gt;&lt;/filter&gt;-&lt;filter-mapping&gt;&lt;filter-name&gt;HiddenHttpMethodFilter&lt;/filter-name&gt;&lt;url-pattern&gt;/*&lt;/url-pattern&gt;&lt;/filter-mapping&gt;-&lt;filter&gt;&lt;filter-name&gt;HttpPutFormContentFilter&lt;/filter-name&gt;&lt;filter-class&gt;org.springframework.web.filter.HttpPutFormContentFilter&lt;/filter-class&gt;&lt;/filter&gt;-&lt;filter-mapping&gt;&lt;filter-name&gt;HttpPutFormContentFilter&lt;/filter-name&gt;&lt;url-pattern&gt;/*&lt;/url-pattern&gt;&lt;/filter-mapping&gt;&lt;/web-app&gt; applicationContext.xml123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133134135136137138139140141142143&lt;?xml version="1.0" encoding="UTF-8"?&gt;-&lt;beans xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans"&gt;-&lt;context:component-scan base-package="com.ljj"&gt;&lt;context:exclude-filter expression="org.springframework.stereotype.Controller" type="annotation"/&gt;&lt;/context:component-scan&gt;&lt;!-- Spring配置文件 主要配置和业务逻辑有关的 --&gt;&lt;!-- ==================数据源 事务控制……============= --&gt;&lt;context:property-placeholder location="classpath:dbconfig.properties"/&gt;-&lt;bean class="com.mchange.v2.c3p0.ComboPooledDataSource" id="pooledDataSource"&gt;&lt;property value="$&#123;jdbc.jdbcUrl&#125;" name="jdbcUrl"/&gt;&lt;property value="$&#123;jdbc.jdbcDriver&#125;" name="driverClass"/&gt;&lt;property value="$&#123;jdbc.user&#125;" name="user"/&gt;&lt;property value="$&#123;jdbc.password&#125;" name="password"/&gt;&lt;/bean&gt;&lt;!-- ============================================ --&gt;&lt;!-- =========配置和mybatis的整合 ===============--&gt;-&lt;bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory"&gt;&lt;!-- 制定mybatis全局配置文件的位置 --&gt;&lt;property value="classpath:mybatis-config.xml" name="configLocation"/&gt;&lt;property name="dataSource" ref="pooledDataSource"/&gt;&lt;!-- 制定mybatis，mapper文件位置 --&gt;&lt;property value="classpath:mapper/*xml" name="mapperLocations"/&gt;&lt;/bean&gt;&lt;!-- 配置扫描器，将mybatis接口的实现加入到ioc容器中 --&gt;-&lt;bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"&gt;&lt;!-- 扫描所有dao接口的实现，加入到ioc容器中 --&gt;&lt;property value="com.ljj.dao" name="basePackage"/&gt;&lt;property value="sqlSessionFactory" name="sqlSessionFactoryBeanName"/&gt;&lt;/bean&gt;&lt;!-- 配置一个可以批量生成的sqlsession --&gt;-&lt;bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSession"&gt;&lt;constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/&gt;&lt;constructor-arg value="BATCH" name="executorType"/&gt;&lt;/bean&gt;&lt;!-- ============================================ --&gt;&lt;!-- ===========事务控制的配置==================== --&gt;-&lt;bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager"&gt;&lt;!-- 控制住数据源 --&gt;&lt;property name="dataSource" ref="pooledDataSource"/&gt;&lt;/bean&gt;&lt;!-- 开启基于注解的事务，使用xml配置形式的事务 --&gt;-&lt;aop:config&gt;&lt;!-- 切入点表达式 --&gt;&lt;aop:pointcut expression="execution(* com.ljj.service..*(..))" id="txPoint"/&gt;&lt;!-- 配置事务增强 --&gt;&lt;aop:advisor pointcut-ref="txPoint" advice-ref="txAdvice"/&gt;&lt;/aop:config&gt;&lt;!-- 配置事务增强，即事务如何切入 --&gt;-&lt;tx:advice id="txAdvice" transaction-manager="transactionManager"&gt;-&lt;tx:attributes&gt;&lt;!-- 所有方法都是事务方法 --&gt;&lt;tx:method name="*"/&gt;&lt;!-- 以get开始的所有方法 --&gt;&lt;tx:method name="get*" read-only="true"/&gt;&lt;/tx:attributes&gt;&lt;/tx:advice&gt;&lt;!-- Spring配置文件的核心点（数据源，与mybatis的整合，事务控制） --&gt;&lt;/beans&gt; dispatcherServlet-servlet.xml12345678910111213141516171819202122232425262728293031323334353637383940414243&lt;?xml version="1.0" encoding="UTF-8"?&gt;-&lt;beans xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans"&gt;&lt;!-- springmvc的配置文件 包含网站跳转逻辑，配置 --&gt;-&lt;context:component-scan use-default-filters="false" base-package="com.ljj"&gt;&lt;!-- 只扫描控制器 --&gt;&lt;context:include-filter expression="org.springframework.stereotype.Controller" type="annotation"/&gt;&lt;/context:component-scan&gt;&lt;!-- 配置视图解析器，方便页面返回 --&gt;-&lt;bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"&gt;&lt;property value="/WEB-INF/views/" name="prefix"/&gt;&lt;property value=".jsp" name="suffix"/&gt;&lt;/bean&gt;&lt;!-- 两个标准配置 --&gt;&lt;!-- 将springmvc不能处理的请求交给tomcat --&gt;&lt;mvc:default-servlet-handler/&gt;&lt;!-- 能支持springmvc更高级的一些功能，JSR003校验…… 映射动态请求 --&gt;&lt;mvc:annotation-driven/&gt;&lt;/beans&gt; mybatis-config.xml123456789101112131415161718192021222324252627282930313233&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;!DOCTYPE configuration SYSTEM "http://mybatis.org/dtd/mybatis-3-config.dtd" PUBLIC "-//mybatis.org//DTD Config 3.0//EN"&gt;-&lt;configuration&gt;-&lt;settings&gt;&lt;setting value="true" name="mapUnderscoreToCamelCase"/&gt;&lt;/settings&gt;-&lt;typeAliases&gt;&lt;package name="com.ljj.bean"/&gt;&lt;/typeAliases&gt;-&lt;plugins&gt;-&lt;plugin interceptor="com.github.pagehelper.PageInterceptor"&gt;&lt;property value="true" name="reasonable"/&gt;&lt;/plugin&gt;&lt;/plugins&gt;&lt;/configuration&gt;]]></content>
       <categories>
         <category>ssm</category>
@@ -93,7 +93,7 @@
   </entry>
   <entry>
     <title><![CDATA[自己日常用LINUX命令]]></title>
-    <url>%2F2019%2F02%2F28%2F%E6%97%A5%E5%B8%B8%E7%94%A8LINUX%E5%91%BD%E4%BB%A4%2F</url>
+    <url>%2Fbce1100.github.io%2F2019%2F02%2F28%2F%E6%97%A5%E5%B8%B8%E7%94%A8LINUX%E5%91%BD%E4%BB%A4%2F</url>
     <content type="text"><![CDATA[查看tomcat进程：ps -ef | grep tomcat 整行删除：CTRL K，光标往后删除；CTRL U，光标往前删 删除当前文件夹下所有文件：rm -f * 删除文件夹及内容：rm -fr * 实时查看文件内容尾：tail -f filename 查看服务器对外ip：curl ifconfig.me]]></content>
       <categories>
         <category>linux</category>
@@ -104,7 +104,7 @@
   </entry>
   <entry>
     <title><![CDATA[每次hexo d部署后都要在github仓库上重新保存域名]]></title>
-    <url>%2F2019%2F02%2F27%2F%E6%AC%A1hexo-d%E9%83%A8%E7%BD%B2%E5%90%8E%E9%83%BD%E8%A6%81%E5%9C%A8github%E4%BB%93%E5%BA%93%E4%B8%8A%E9%87%8D%E6%96%B0%E4%BF%9D%E5%AD%98%E5%9F%9F%E5%90%8D%2F</url>
+    <url>%2Fbce1100.github.io%2F2019%2F02%2F27%2F%E6%AC%A1hexo-d%E9%83%A8%E7%BD%B2%E5%90%8E%E9%83%BD%E8%A6%81%E5%9C%A8github%E4%BB%93%E5%BA%93%E4%B8%8A%E9%87%8D%E6%96%B0%E4%BF%9D%E5%AD%98%E5%9F%9F%E5%90%8D%2F</url>
     <content type="text"><![CDATA[解决办法： 在根目录的source文件夹下新建一个CNAME文件，我使用的是Notepad++，内容就写自己的域名，保存时选all type hexo g重新生成一下静态文件 hexo d部署上github]]></content>
       <tags>
         <tag>hexo</tag>
@@ -112,7 +112,7 @@
   </entry>
   <entry>
     <title><![CDATA[hexo-admin安装]]></title>
-    <url>%2F2019%2F02%2F26%2Fhexo-admin%E5%AE%89%E8%A3%85%2F</url>
+    <url>%2Fbce1100.github.io%2F2019%2F02%2F26%2Fhexo-admin%E5%AE%89%E8%A3%85%2F</url>
     <content type="text"><![CDATA[安装Hexo Admin 插件在hexo目录下输入如下命令： 12npm install --save hexo-adminhexo server -d 设置后台登录账号密码 浏览器访问 http://localhost:4000/admin ，并点击Settings 填好登录账号、密码和加密字符串，并将下方生成的内容粘贴到根目录_config.yml下 hexo中图片插入 设置config.yml的post_asset_folder为true，开启资源文件夹功能 通过相对路径标签引用资源，而不是markdown语法引用。{\% asset_img 1.png [title] \%}上面的“\”要去掉，这里因为是hexo的指令，不能直接显示在文章里，所以这里才加上。]]></content>
       <categories>
         <category>hexo</category>
@@ -123,7 +123,7 @@
   </entry>
   <entry>
     <title><![CDATA[Hello World]]></title>
-    <url>%2F2019%2F02%2F26%2Fhello-world%2F</url>
+    <url>%2Fbce1100.github.io%2F2019%2F02%2F26%2Fhello-world%2F</url>
     <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
       <tags>
         <tag>init</tag>
