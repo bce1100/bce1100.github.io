@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-03-06T05:55:23.619Z</updated>
+  <updated>2019-03-07T06:45:59.826Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>谈谈对java的理解</title>
+    <link href="http://yoursite.com/2019/03/07/%E5%AF%B9java%E7%9A%84%E7%90%86%E8%A7%A3/"/>
+    <id>http://yoursite.com/2019/03/07/对java的理解/</id>
+    <published>2019-03-07T06:43:00.000Z</published>
+    <updated>2019-03-07T06:45:59.826Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="谈谈对java的理解"><a href="#谈谈对java的理解" class="headerlink" title="谈谈对java的理解"></a>谈谈对java的理解</h1><p>围绕以下特性展开来谈：</p><ul><li>平台无关性（一次编译到处运行compile once，run anywhere</li><li>GC（垃圾回收机制</li><li>语言特性（泛型、反射、lambda表达式……</li><li>面向对象（封装、继承、多态</li><li>类库（Java自带的集合、并发库、网络库、IO\NIO</li><li>异常处理</li></ul><h1 id="一次编译到处运行是如何实现的"><a href="#一次编译到处运行是如何实现的" class="headerlink" title="一次编译到处运行是如何实现的"></a>一次编译到处运行是如何实现的</h1><p>Java源码首先被编译成字节码，再由不同的JVM进行解析Java语言在不同的平台上运行时不需要进行重新的编译，Java虚拟机在执行字节码时，把字节码转换成具体平台上的机器指令。</p><p>查看字节码：javac编译后，javap -c查看</p><p>例：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span></span>&#123;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String [] args)</span></span>&#123;</span><br><span class="line"><span class="keyword">int</span> i = <span class="number">4</span>;</span><br><span class="line">i = i++;</span><br><span class="line"><span class="keyword">int</span> j = <span class="number">5</span>;</span><br><span class="line">j = ++j;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Compiled from &quot;Test.java&quot;</span><br><span class="line">public class Test &#123;</span><br><span class="line">  public Test();</span><br><span class="line">    Code:</span><br><span class="line">       0: aload_0</span><br><span class="line">       1: invokespecial #1                  // Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">       4: return</span><br><span class="line"></span><br><span class="line">  public static void main(java.lang.String[]);</span><br><span class="line">    Code:</span><br><span class="line">       0: iconst_4//把4放到栈顶</span><br><span class="line">       1: istore_1//把栈顶的值放到局部变量1中（即4赋给i）</span><br><span class="line">       2: iload_1//把局部变量1的值放到栈顶，此时栈顶值为4</span><br><span class="line">       3: iinc          1, 1//局部变量1（即i）增加1，但不会使栈发生变化，此时i变成5</span><br><span class="line">       6: istore_1//把栈顶的值放到局部变量1中，即i这时由5变成4</span><br><span class="line">       7: iconst_5</span><br><span class="line">       8: istore_2</span><br><span class="line">       9: iinc          2, 1//把局部变量2（即j）加1值变为6，但是栈顶中仍是5没有变</span><br><span class="line">      12: iload_2//把局部变量2的值放到栈顶，此时栈顶值为6</span><br><span class="line">      13: istore_2//把栈顶的值放到局部变量2中，即j由5变6</span><br><span class="line">      14: return</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;谈谈对java的理解&quot;&gt;&lt;a href=&quot;#谈谈对java的理解&quot; class=&quot;headerlink&quot; title=&quot;谈谈对java的理解&quot;&gt;&lt;/a&gt;谈谈对java的理解&lt;/h1&gt;&lt;p&gt;围绕以下特性展开来谈：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;平台无关性（一次编译到处运
+      
+    
+    </summary>
+    
+      <category term="java" scheme="http://yoursite.com/categories/java/"/>
+    
+    
+      <category term="java" scheme="http://yoursite.com/tags/java/"/>
+    
+  </entry>
   
   <entry>
     <title>为什么Redis能这么快</title>
