@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[谈谈ClassLoader]]></title>
+    <url>%2F2019%2F03%2F08%2FClassLoader%2F</url>
+    <content type="text"><![CDATA[谈谈ClassLoaderclassloader的作用到本质再到种类 ClassLoader在Java中有着非常重要的作用，它主要工作在Class装载的加载阶段，其主要作用是从系统外部获得Class二进制数据流。它是Java的核心组件，所有的Class都是由ClassLoader进行加载的，ClassLoader负责通过将Class文件里的二进制数据流装在进系统，然后交给Java虚拟机进行连接、初始化等操作。 BootStrapClassLoader：作用主要是加载核心库Java.*，通常这些核心类的Class被签名不能被替换掉。它是由JVM内核实现的，在HotSpot VM及目前主要的java虚拟机中是用C++实现的。有了它加载最核心的内容才会有后面的ClassLoader存在。 ExtClassLoader：Java编写，加载扩展库Javax.*。这个ClassLoader是用户可见的，是用来加载位于jre/lib/ext目录下的jar包。用户也可以将自定义的jar包放到这个目录下，通过这个ClassLoader去加载。 AppClassLoader：Java编写，加载程序所在目录。也是用户可见的ClassLoader。它是用来加载class path下的内容。 自定义ClassLoader：Java编写，定制化加载。 demo: 1234567891011121314151617181920212223242526272829303132333435363738394041public class MyClassLoader extends ClassLoader &#123; private String path; private String classLoaderName; public MyClassLoader(String path, String classLoaderName) &#123; this.path = path; this.classLoaderName = classLoaderName; &#125; //用于寻找类文件 @Override public Class findClass(String name) &#123; byte[] b = loadClassData(name); return defineClass(name, b, 0, b.length); &#125; //用于加载类文件 private byte[] loadClassData(String name) &#123; name = path + name + ".class"; InputStream in = null; ByteArrayOutputStream out = null; try &#123; in = new FileInputStream(new File(name)); out = new ByteArrayOutputStream(); int i = 0; while ((i = in.read()) != -1) &#123; out.write(i); &#125; &#125; catch (Exception e) &#123; e.printStackTrace(); &#125; finally &#123; try &#123; out.close(); in.close(); &#125; catch (Exception e) &#123; e.printStackTrace(); &#125; &#125; return out.toByteArray(); &#125;&#125; 1234567public class ClassLoaderChecker &#123; public static void main(String[] args) throws ClassNotFoundException, IllegalAccessException, InstantiationException &#123; MyClassLoader m = new MyClassLoader("路径", "classloader名"); Class c = m.loadClass("类名"); c.newInstance(); &#125;&#125;]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[谈谈对java的理解]]></title>
     <url>%2F2019%2F03%2F07%2F%E5%AF%B9java%E7%9A%84%E7%90%86%E8%A7%A3%2F</url>
     <content type="text"><![CDATA[谈谈对java的理解围绕以下特性展开来谈： 平台无关性（一次编译到处运行compile once，run anywhere GC（垃圾回收机制 语言特性（泛型、反射、lambda表达式…… 面向对象（封装、继承、多态 类库（Java自带的集合、并发库、网络库、IO\NIO 异常处理 一次编译到处运行是如何实现的Java源码首先被编译成字节码，再由不同的JVM进行解析Java语言在不同的平台上运行时不需要进行重新的编译，Java虚拟机在执行字节码时，把字节码转换成具体平台上的机器指令。 查看字节码：javac编译后，javap -c查看 例： 12345678public class Test&#123; public static void main(String [] args)&#123; int i = 4; i = i++; int j = 5; j = ++j; &#125;&#125; 12345678910111213141516171819202122Compiled from &quot;Test.java&quot;public class Test &#123; public Test(); Code: 0: aload_0 1: invokespecial #1 // Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V 4: return public static void main(java.lang.String[]); Code: 0: iconst_4 //把4放到栈顶 1: istore_1 //把栈顶的值放到局部变量1中（即4赋给i） 2: iload_1 //把局部变量1的值放到栈顶，此时栈顶值为4 3: iinc 1, 1 //局部变量1（即i）增加1，但不会使栈发生变化，此时i变成5 6: istore_1 //把栈顶的值放到局部变量1中，即i这时由5变成4 7: iconst_5 8: istore_2 9: iinc 2, 1 //把局部变量2（即j）加1值变为6，但是栈顶中仍是5没有变 12: iload_2 //把局部变量2的值放到栈顶，此时栈顶值为6 13: istore_2 //把栈顶的值放到局部变量2中，即j由5变6 14: return&#125;]]></content>
@@ -105,9 +116,9 @@
         <category>ssm</category>
       </categories>
       <tags>
+        <tag>java</tag>
         <tag>ssm</tag>
         <tag>springmvc</tag>
-        <tag>java</tag>
       </tags>
   </entry>
   <entry>
