@@ -1,162 +1,397 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search>
-  <entry>
-    <title><![CDATA[谈谈ClassLoader]]></title>
-    <url>%2F2019%2F03%2F08%2FClassLoader%2F</url>
-    <content type="text"><![CDATA[谈谈ClassLoaderclassloader的作用到本质再到种类 ClassLoader在Java中有着非常重要的作用，它主要工作在Class装载的加载阶段，其主要作用是从系统外部获得Class二进制数据流。它是Java的核心组件，所有的Class都是由ClassLoader进行加载的，ClassLoader负责通过将Class文件里的二进制数据流装在进系统，然后交给Java虚拟机进行连接、初始化等操作。 BootStrapClassLoader：作用主要是加载核心库Java.*，通常这些核心类的Class被签名不能被替换掉。它是由JVM内核实现的，在HotSpot VM及目前主要的java虚拟机中是用C++实现的。有了它加载最核心的内容才会有后面的ClassLoader存在。 ExtClassLoader：Java编写，加载扩展库Javax.*。这个ClassLoader是用户可见的，是用来加载位于jre/lib/ext目录下的jar包。用户也可以将自定义的jar包放到这个目录下，通过这个ClassLoader去加载。 AppClassLoader：Java编写，加载程序所在目录。也是用户可见的ClassLoader。它是用来加载class path下的内容。 自定义ClassLoader：Java编写，定制化加载。 demo: 1234567891011121314151617181920212223242526272829303132333435363738394041public class MyClassLoader extends ClassLoader &#123; private String path; private String classLoaderName; public MyClassLoader(String path, String classLoaderName) &#123; this.path = path; this.classLoaderName = classLoaderName; &#125; //用于寻找类文件 @Override public Class findClass(String name) &#123; byte[] b = loadClassData(name); return defineClass(name, b, 0, b.length); &#125; //用于加载类文件 private byte[] loadClassData(String name) &#123; name = path + name + ".class"; InputStream in = null; ByteArrayOutputStream out = null; try &#123; in = new FileInputStream(new File(name)); out = new ByteArrayOutputStream(); int i = 0; while ((i = in.read()) != -1) &#123; out.write(i); &#125; &#125; catch (Exception e) &#123; e.printStackTrace(); &#125; finally &#123; try &#123; out.close(); in.close(); &#125; catch (Exception e) &#123; e.printStackTrace(); &#125; &#125; return out.toByteArray(); &#125;&#125; 1234567public class ClassLoaderChecker &#123; public static void main(String[] args) throws ClassNotFoundException, IllegalAccessException, InstantiationException &#123; MyClassLoader m = new MyClassLoader("路径", "classloader名"); Class c = m.loadClass("类名"); c.newInstance(); &#125;&#125;]]></content>
+<search> 
+  
+  
+    
+    <entry>
+      <title>JVM如何加载.class文件</title>
+      <link href="/2019/03/12/JVM%E5%A6%82%E4%BD%95%E5%8A%A0%E8%BD%BD-class%E6%96%87%E4%BB%B6/"/>
+      <url>/2019/03/12/JVM%E5%A6%82%E4%BD%95%E5%8A%A0%E8%BD%BD-class%E6%96%87%E4%BB%B6/</url>
+      
+        <content type="html"><![CDATA[<p>jvm主要由Class Loader、Runtime Data Area、Execution Engine以及Native Interface这四个部分组成。它主要通过Class Loader将符合其格式要求的class文件加载到内存，并通过Execution Engine去解析class文件里的字节码并提交给操作系统去执行。</p><ul><li>Class Loader：依据特定格式，加载class文件到内存</li><li>Execution Engine：对命令进行解析</li><li>Native Interface：融合不同开发语言的原生库为Java所用（如Class.forName()方法）</li><li>Runtime Data Area：JVM内存空间结构模型</li></ul>]]></content>
+      
+      
       <categories>
-        <category>java</category>
+          
+          <category> java </category>
+          
       </categories>
-      <tags>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[谈谈对java的理解]]></title>
-    <url>%2F2019%2F03%2F07%2F%E5%AF%B9java%E7%9A%84%E7%90%86%E8%A7%A3%2F</url>
-    <content type="text"><![CDATA[谈谈对java的理解围绕以下特性展开来谈： 平台无关性（一次编译到处运行compile once，run anywhere GC（垃圾回收机制 语言特性（泛型、反射、lambda表达式…… 面向对象（封装、继承、多态 类库（Java自带的集合、并发库、网络库、IO\NIO 异常处理 一次编译到处运行是如何实现的Java源码首先被编译成字节码，再由不同的JVM进行解析Java语言在不同的平台上运行时不需要进行重新的编译，Java虚拟机在执行字节码时，把字节码转换成具体平台上的机器指令。 查看字节码：javac编译后，javap -c查看 例： 12345678public class Test&#123; public static void main(String [] args)&#123; int i = 4; i = i++; int j = 5; j = ++j; &#125;&#125; 12345678910111213141516171819202122Compiled from &quot;Test.java&quot;public class Test &#123; public Test(); Code: 0: aload_0 1: invokespecial #1 // Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V 4: return public static void main(java.lang.String[]); Code: 0: iconst_4 //把4放到栈顶 1: istore_1 //把栈顶的值放到局部变量1中（即4赋给i） 2: iload_1 //把局部变量1的值放到栈顶，此时栈顶值为4 3: iinc 1, 1 //局部变量1（即i）增加1，但不会使栈发生变化，此时i变成5 6: istore_1 //把栈顶的值放到局部变量1中，即i这时由5变成4 7: iconst_5 8: istore_2 9: iinc 2, 1 //把局部变量2（即j）加1值变为6，但是栈顶中仍是5没有变 12: iload_2 //把局部变量2的值放到栈顶，此时栈顶值为6 13: istore_2 //把栈顶的值放到局部变量2中，即j由5变6 14: return&#125;]]></content>
+      
+      
+        <tags>
+            
+            <tag> java </tag>
+            
+            <tag> jvm </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>谈谈ClassLoader</title>
+      <link href="/2019/03/08/ClassLoader/"/>
+      <url>/2019/03/08/ClassLoader/</url>
+      
+        <content type="html"><![CDATA[<h1 id="谈谈ClassLoader"><a href="#谈谈ClassLoader" class="headerlink" title="谈谈ClassLoader"></a>谈谈ClassLoader</h1><p>classloader的作用到本质再到种类</p><p>ClassLoader在Java中有着非常重要的作用，它主要工作在Class装载的加载阶段，其主要作用是从系统外部获得Class二进制数据流。它是Java的核心组件，所有的Class都是由ClassLoader进行加载的，ClassLoader负责通过将Class文件里的二进制数据流装在进系统，然后交给Java虚拟机进行连接、初始化等操作。</p><ul><li><p>BootStrapClassLoader：作用主要是加载核心库Java.*，通常这些核心类的Class被签名不能被替换掉。它是由JVM内核实现的，在HotSpot VM及目前主要的java虚拟机中是用C++实现的。有了它加载最核心的内容才会有后面的ClassLoader存在。</p></li><li><p>ExtClassLoader：Java编写，加载扩展库Javax.*。这个ClassLoader是用户可见的，是用来加载位于jre/lib/ext目录下的jar包。用户也可以将自定义的jar包放到这个目录下，通过这个ClassLoader去加载。</p></li><li><p>AppClassLoader：Java编写，加载程序所在目录。也是用户可见的ClassLoader。它是用来加载class path下的内容。</p></li><li><p>自定义ClassLoader：Java编写，定制化加载。</p><p>demo:</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyClassLoader</span> <span class="keyword">extends</span> <span class="title">ClassLoader</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String path;</span><br><span class="line">    <span class="keyword">private</span> String classLoaderName;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyClassLoader</span><span class="params">(String path, String classLoaderName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.path = path;</span><br><span class="line">        <span class="keyword">this</span>.classLoaderName = classLoaderName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//用于寻找类文件</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Class <span class="title">findClass</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">byte</span>[] b = loadClassData(name);</span><br><span class="line">        <span class="keyword">return</span> defineClass(name, b, <span class="number">0</span>, b.length);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//用于加载类文件</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">byte</span>[] loadClassData(String name) &#123;</span><br><span class="line">        name = path + name + <span class="string">".class"</span>;</span><br><span class="line">        InputStream in = <span class="keyword">null</span>;</span><br><span class="line">        ByteArrayOutputStream out = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            in = <span class="keyword">new</span> FileInputStream(<span class="keyword">new</span> File(name));</span><br><span class="line">            out = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">            <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">while</span> ((i = in.read()) != -<span class="number">1</span>) &#123;</span><br><span class="line">                out.write(i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                out.close();</span><br><span class="line">                in.close();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> out.toByteArray();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ClassLoaderChecker</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> ClassNotFoundException, IllegalAccessException, InstantiationException </span>&#123;</span><br><span class="line">        MyClassLoader m = <span class="keyword">new</span> MyClassLoader(<span class="string">"路径"</span>, <span class="string">"classloader名"</span>);</span><br><span class="line">        Class c = m.loadClass(<span class="string">"类名"</span>);</span><br><span class="line">        c.newInstance();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li></ul>]]></content>
+      
+      
       <categories>
-        <category>java</category>
+          
+          <category> java </category>
+          
       </categories>
-      <tags>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[为什么Redis能这么快]]></title>
-    <url>%2F2019%2F03%2F06%2F%E4%BB%80%E4%B9%88Redis%E8%83%BD%E8%BF%99%E4%B9%88%E5%BF%AB%2F</url>
-    <content type="text"><![CDATA[为什么Redis能这么快 完全基于内存，绝大部分请求是纯粹的内存操作，执行效率高。Redis采用的是单进程单线程模型的Key-Value数据库，由C语言编写，它将数据储存在内存里面，读写数据的时候都不会受到硬盘IO速度的限制，所以速度极快。 数据结构简单，对数据操作也简单。Redis不使用表，它的数据库不会预定义或者强制要求用户对Redis存储的不同数据进行关联，因此性能相比关系型数据库要高出不止一个量级。其存储结构就是键值对，类似于HashMap。 采用单线程，单线程也能处理高并发请求，想多核也可启动多实例。避免了不必要的上下文切换和竞争条件，也不存在多进程或者多线程导致的切换而消耗 CPU，不用去考虑各种锁的问题，不存在加锁释放锁操作，没有因为可能出现死锁而导致的性能消耗。（这里一直在强调的单线程，只是在处理我们的网络请求的时候只有一个线程来处理，一个正式的Redis Server运行的时候肯定是不止一个线程的。例如Redis进行持久化的时候会以子进程或者子线程的方式执行） 使用多路I/O复用模型，非阻塞IO。 多路I/O复用模型是利用 select、poll、epoll 可以同时监察多个流的 I/O 事件的能力，在空闲的时候，会把当前线程阻塞掉，当有一个或多个流有 I/O 事件时，就从阻塞态中唤醒，于是程序就会轮询一遍所有的流（epoll 是只轮询那些真正发出了事件的流），并且只依次顺序的处理就绪的流，这种做法就避免了大量的无用操作。这里“多路”指的是多个网络连接，“复用”指的是复用同一个线程。采用多路 I/O 复用技术可以让单个线程高效的处理多个连接请求（尽量减少网络 IO 的时间消耗），且 Redis 在内存中操作数据的速度非常快，也就是说内存内的操作不会成为影响Redis性能的瓶颈，主要由以上几点造就了 Redis 具有很高的吞吐量。]]></content>
-      <tags>
-        <tag>redis</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[索引]]></title>
-    <url>%2F2019%2F03%2F05%2F%E5%BC%95%2F</url>
-    <content type="text"><![CDATA[为什么使用索引进行全表扫描时会把数据库多块/页加载读取，然后逐个块去轮询找到目标并返回。这种方式在数据量大时会很慢的。要避免全表扫描的发生就要使用索引提升检索速率，快速查询数据。 索引的数据结构 二叉查找树及其变种平衡二叉树、红黑树等 B-Tree B+-Tree（MySql）主流 Hash结构 BitMap 二叉树的结构的时间复杂度可能会比较低，但是数据量大时避免不了树的高度过深，这样磁盘的IO次数就会增多，数据库查询的速率还是会很慢。因此还是要看B-Tree/B+-Tree…… B+-Tree更适合用来做存储索引 B+树的磁盘读写代价更低 B+树的查询效率更加稳定 O(logn)，因为只有叶子节点才存储文件内容，所以任何关键字的查找必须走一条从根节点到叶子节点的路。 B+树更有利于对数据库的扫描。B树在提高了磁盘IO性能时，并没有解决元素遍历效率低下的问题。B+树只要遍历叶子节点就可以解决对全部关键字信息的扫描。所以对于数据库中频繁使用的范围查询有更高的性能。]]></content>
+      
+      
+        <tags>
+            
+            <tag> java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>谈谈对java的理解</title>
+      <link href="/2019/03/07/%E5%AF%B9java%E7%9A%84%E7%90%86%E8%A7%A3/"/>
+      <url>/2019/03/07/%E5%AF%B9java%E7%9A%84%E7%90%86%E8%A7%A3/</url>
+      
+        <content type="html"><![CDATA[<h1 id="谈谈对java的理解"><a href="#谈谈对java的理解" class="headerlink" title="谈谈对java的理解"></a>谈谈对java的理解</h1><p>围绕以下特性展开来谈：</p><ul><li>平台无关性（一次编译到处运行compile once，run anywhere</li><li>GC（垃圾回收机制</li><li>语言特性（泛型、反射、lambda表达式……</li><li>面向对象（封装、继承、多态</li><li>类库（Java自带的集合、并发库、网络库、IO\NIO</li><li>异常处理</li></ul><h1 id="一次编译到处运行是如何实现的"><a href="#一次编译到处运行是如何实现的" class="headerlink" title="一次编译到处运行是如何实现的"></a>一次编译到处运行是如何实现的</h1><p>Java源码首先被编译成字节码，再由不同的JVM进行解析Java语言在不同的平台上运行时不需要进行重新的编译，Java虚拟机在执行字节码时，把字节码转换成具体平台上的机器指令。</p><p>查看字节码：javac编译后，javap -c查看</p><p>例：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span></span>&#123;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String [] args)</span></span>&#123;</span><br><span class="line"><span class="keyword">int</span> i = <span class="number">4</span>;</span><br><span class="line">i = i++;</span><br><span class="line"><span class="keyword">int</span> j = <span class="number">5</span>;</span><br><span class="line">j = ++j;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Compiled from &quot;Test.java&quot;</span><br><span class="line">public class Test &#123;</span><br><span class="line">  public Test();</span><br><span class="line">    Code:</span><br><span class="line">       0: aload_0</span><br><span class="line">       1: invokespecial #1                  // Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">       4: return</span><br><span class="line"></span><br><span class="line">  public static void main(java.lang.String[]);</span><br><span class="line">    Code:</span><br><span class="line">       0: iconst_4//把4放到栈顶</span><br><span class="line">       1: istore_1//把栈顶的值放到局部变量1中（即4赋给i）</span><br><span class="line">       2: iload_1//把局部变量1的值放到栈顶，此时栈顶值为4</span><br><span class="line">       3: iinc          1, 1//局部变量1（即i）增加1，但不会使栈发生变化，此时i变成5</span><br><span class="line">       6: istore_1//把栈顶的值放到局部变量1中，即i这时由5变成4</span><br><span class="line">       7: iconst_5</span><br><span class="line">       8: istore_2</span><br><span class="line">       9: iinc          2, 1//把局部变量2（即j）加1值变为6，但是栈顶中仍是5没有变</span><br><span class="line">      12: iload_2//把局部变量2的值放到栈顶，此时栈顶值为6</span><br><span class="line">      13: istore_2//把栈顶的值放到局部变量2中，即j由5变6</span><br><span class="line">      14: return</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
       <categories>
-        <category>数据库</category>
+          
+          <category> java </category>
+          
       </categories>
-      <tags>
-        <tag>索引</tag>
-        <tag>数据库</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[HTTP和HTTPS的区别]]></title>
-    <url>%2F2019%2F03%2F01%2FTP%E5%92%8CHTTPS%E7%9A%84%E5%8C%BA%E5%88%AB%2F</url>
-    <content type="text"><![CDATA[HTTP和HTTPS的区别SSL(Security Sockets Layer 安全套接层) 为网络通信提供安全及数据完整性的一种协议 是操作系统对外的API，SSL3.0后更名为TLS 采用身份验证和数据加密保证网络通信的安全性和数据的完整性 HTTPS数据传输流程 浏览器将支持的加密算法信息发送给服务器 服务器选择一套浏览器支持的加密算法，以证书的形式回发给浏览器 浏览器验证证书合法性，并结合证书公钥加密信息发送给服务器 服务器使用私钥解密信息，验证哈希，加密响应消息回发浏览器 浏览器解密响应消息，并对消息进行验证，之后进行加密交互数据 区别 HTTPS需要到CA申请证书，HTTP不需要 HTTPS密文传输，HTTP明文传输 连接方式不同，HTTPS默认端口443，HTTP默认端口80 HTTPS=HTTP+加密+认证+完整性保护，较HTTP安全]]></content>
+      
+      
+        <tags>
+            
+            <tag> java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>为什么Redis能这么快</title>
+      <link href="/2019/03/06/%E4%BB%80%E4%B9%88Redis%E8%83%BD%E8%BF%99%E4%B9%88%E5%BF%AB/"/>
+      <url>/2019/03/06/%E4%BB%80%E4%B9%88Redis%E8%83%BD%E8%BF%99%E4%B9%88%E5%BF%AB/</url>
+      
+        <content type="html"><![CDATA[<h1 id="为什么Redis能这么快"><a href="#为什么Redis能这么快" class="headerlink" title="为什么Redis能这么快"></a>为什么Redis能这么快</h1><ol><li><p>完全基于内存，绝大部分请求是纯粹的内存操作，执行效率高。Redis采用的是单进程单线程模型的Key-Value数据库，由C语言编写，它将数据储存在内存里面，读写数据的时候都不会受到硬盘IO速度的限制，所以速度极快。</p></li><li><p>数据结构简单，对数据操作也简单。Redis不使用表，它的数据库不会预定义或者强制要求用户对Redis存储的不同数据进行关联，因此性能相比关系型数据库要高出不止一个量级。其存储结构就是键值对，类似于HashMap。</p></li><li><p>采用单线程，单线程也能处理高并发请求，想多核也可启动多实例。避免了不必要的上下文切换和竞争条件，也不存在多进程或者多线程导致的切换而消耗 CPU，不用去考虑各种锁的问题，不存在加锁释放锁操作，没有因为可能出现死锁而导致的性能消耗。（这里一直在强调的单线程，只是在处理我们的网络请求的时候只有一个线程来处理，一个正式的Redis Server运行的时候肯定是不止一个线程的。例如Redis进行持久化的时候会以子进程或者子线程的方式执行）</p></li><li><p>使用多路I/O复用模型，非阻塞IO。</p><blockquote><p>多路I/O复用模型是利用 select、poll、epoll 可以同时监察多个流的 I/O 事件的能力，在空闲的时候，会把当前线程阻塞掉，当有一个或多个流有 I/O 事件时，就从阻塞态中唤醒，于是程序就会轮询一遍所有的流（epoll 是只轮询那些真正发出了事件的流），并且只依次顺序的处理就绪的流，这种做法就避免了大量的无用操作。<br>这里“多路”指的是多个网络连接，“复用”指的是复用同一个线程。采用多路 I/O 复用技术可以让单个线程高效的处理多个连接请求（尽量减少网络 IO 的时间消耗），且 Redis 在内存中操作数据的速度非常快，也就是说内存内的操作不会成为影响Redis性能的瓶颈，主要由以上几点造就了 Redis 具有很高的吞吐量。</p></blockquote></li></ol>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> redis </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>索引</title>
+      <link href="/2019/03/05/%E5%BC%95/"/>
+      <url>/2019/03/05/%E5%BC%95/</url>
+      
+        <content type="html"><![CDATA[<h1 id="为什么使用索引"><a href="#为什么使用索引" class="headerlink" title="为什么使用索引"></a>为什么使用索引</h1><p>进行全表扫描时会把数据库多块/页加载读取，然后逐个块去轮询找到目标并返回。这种方式在数据量大时会很慢的。要避免全表扫描的发生就要使用索引提升检索速率，快速查询数据。</p><h1 id="索引的数据结构"><a href="#索引的数据结构" class="headerlink" title="索引的数据结构"></a>索引的数据结构</h1><ol><li>二叉查找树及其变种平衡二叉树、红黑树等</li><li>B-Tree</li><li>B+-Tree（MySql）主流</li><li>Hash结构</li><li>BitMap</li></ol><p>二叉树的结构的时间复杂度可能会比较低，但是数据量大时避免不了树的高度过深，这样磁盘的IO次数就会增多，数据库查询的速率还是会很慢。因此还是要看B-Tree/B+-Tree……</p><h1 id="B-Tree更适合用来做存储索引"><a href="#B-Tree更适合用来做存储索引" class="headerlink" title="B+-Tree更适合用来做存储索引"></a>B+-Tree更适合用来做存储索引</h1><ol><li>B+树的磁盘读写代价更低</li><li>B+树的查询效率更加稳定 O(logn)，因为只有叶子节点才存储文件内容，所以任何关键字的查找必须走一条从根节点到叶子节点的路。</li><li>B+树更有利于对数据库的扫描。B树在提高了磁盘IO性能时，并没有解决元素遍历效率低下的问题。B+树只要遍历叶子节点就可以解决对全部关键字信息的扫描。所以对于数据库中频繁使用的范围查询有更高的性能。</li></ol>]]></content>
+      
+      
       <categories>
-        <category>计网</category>
+          
+          <category> 数据库 </category>
+          
       </categories>
-      <tags>
-        <tag>计网</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Cookie和Session的区别]]></title>
-    <url>%2F2019%2F03%2F01%2Fokie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB%2F</url>
-    <content type="text"><![CDATA[Cookie和Session的区别Cookie简介 是由服务器发给客户端的特殊信息，以文本的形式存放在客户端 客户端再次请求的时候，会把Cookie回发 服务器接收到后，会解析Cookie生成与客户端相对应的内容 Session简介 服务端的机制，在服务器上保存的信息 解析客户端请求并操作session id，按需保存状态信息 Session的实现方式 使用cookie实现。服务器给每个session分配一个唯一的jsessionid，并通过cookie发送给客户端。当客户端发起新的请求的时候，将在cookie头中携带这个jsessionid，这样服务器能找到客户端对应的session。 使用URL回写来实现。URL回写是指服务器在发送给浏览器页面的所有链接中都携带jsessionid的参数，这样客户端点击任何一个链接，都会把jsessionid带回服务器。如果直接在浏览器输入服务端资源的URL来请求该资源，那么session是匹配不到的。tomcat对session的实现是一开始同时使用cookie和url回写机制。如果发现客户端支持cookie，就继续使用cookie，停止使用url回写。如果cookie被禁止就使用url回写。 区别 Cookie数据存放在客户的浏览器上（客户端），Session数据存放在服务器上。 Session相对于Cookie更安全。别人可以分析存放在本地的Cookie，并进行Cookie欺骗。若考虑到安全性应使用Session 若考虑到减轻服务器负担，应当使用Cookie。]]></content>
+      
+      
+        <tags>
+            
+            <tag> 索引 </tag>
+            
+            <tag> 数据库 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>HTTP和HTTPS的区别</title>
+      <link href="/2019/03/01/TP%E5%92%8CHTTPS%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
+      <url>/2019/03/01/TP%E5%92%8CHTTPS%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
+      
+        <content type="html"><![CDATA[<h1 id="HTTP和HTTPS的区别"><a href="#HTTP和HTTPS的区别" class="headerlink" title="HTTP和HTTPS的区别"></a>HTTP和HTTPS的区别</h1><h2 id="SSL-Security-Sockets-Layer-安全套接层"><a href="#SSL-Security-Sockets-Layer-安全套接层" class="headerlink" title="SSL(Security Sockets Layer 安全套接层)"></a>SSL(Security Sockets Layer 安全套接层)</h2><ol><li>为网络通信提供安全及数据完整性的一种协议</li><li>是操作系统对外的API，SSL3.0后更名为TLS</li><li>采用身份验证和数据加密保证网络通信的安全性和数据的完整性</li></ol><h2 id="HTTPS数据传输流程"><a href="#HTTPS数据传输流程" class="headerlink" title="HTTPS数据传输流程"></a>HTTPS数据传输流程</h2><ol><li>浏览器将支持的加密算法信息发送给服务器</li><li>服务器选择一套浏览器支持的加密算法，以证书的形式回发给浏览器</li><li>浏览器验证证书合法性，并结合证书公钥加密信息发送给服务器</li><li>服务器使用私钥解密信息，验证哈希，加密响应消息回发浏览器</li><li>浏览器解密响应消息，并对消息进行验证，之后进行加密交互数据</li></ol><h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a><strong>区别</strong></h2><ol><li>HTTPS需要到CA申请证书，HTTP不需要</li><li>HTTPS密文传输，HTTP明文传输</li><li>连接方式不同，HTTPS默认端口443，HTTP默认端口80</li><li>HTTPS=HTTP+加密+认证+完整性保护，较HTTP安全</li></ol>]]></content>
+      
+      
       <categories>
-        <category>计网</category>
+          
+          <category> 计网 </category>
+          
       </categories>
-      <tags>
-        <tag>计网</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[GET请求和POST请求区别]]></title>
-    <url>%2F2019%2F03%2F01%2FT%E8%AF%B7%E6%B1%82%E5%92%8CPOST%E8%AF%B7%E6%B1%82%E5%8C%BA%E5%88%AB%2F</url>
-    <content type="text"><![CDATA[HTTP/1.1中对幂等性的定义是：一次和多次请求某一个资源对于资源本身应该具有同样的结果（网络超时等问题除外）。也就是说，其任意多次执行对资源本身所产生的影响均与一次执行的影响相同。 HTTP报文层面：GET将请求信息放在URL，POST放在报文体中 数据库层面：GET符合幂等性（对数据库的一次操作和多次操作获得的结果是一致的，则符合幂等性）和安全性（对数据库的操作没有改变数据库中的数据，则符合安全性），GET请求是做查询操作的，因此不会改变数据库中原有的数据，大致可认为符合幂等性和安全性；POST都不符合，POST请求会往数据库中提交数据，因此会改变数据库中的数据，其次POST请求方式每次获得的结果都有可能不一样，因为POST请求是作用在上一级的URL上的，则每一次请求都会添加一份新资源（这也是POST和PUT的最大区别，PUT是幂等的）。 其他层面：GET可以被缓存、被存储，而POST不行。]]></content>
+      
+      
+        <tags>
+            
+            <tag> 计网 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Cookie和Session的区别</title>
+      <link href="/2019/03/01/okie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
+      <url>/2019/03/01/okie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Cookie和Session的区别"><a href="#Cookie和Session的区别" class="headerlink" title="Cookie和Session的区别"></a>Cookie和Session的区别</h1><h2 id="Cookie简介"><a href="#Cookie简介" class="headerlink" title="Cookie简介"></a>Cookie简介</h2><ol><li>是由服务器发给客户端的特殊信息，以文本的形式存放在客户端</li><li>客户端再次请求的时候，会把Cookie回发</li><li>服务器接收到后，会解析Cookie生成与客户端相对应的内容</li></ol><h2 id="Session简介"><a href="#Session简介" class="headerlink" title="Session简介"></a>Session简介</h2><ol><li><p>服务端的机制，在服务器上保存的信息</p></li><li><p>解析客户端请求并操作session id，按需保存状态信息</p><h3 id="Session的实现方式"><a href="#Session的实现方式" class="headerlink" title="Session的实现方式"></a>Session的实现方式</h3><ol><li>使用cookie实现。服务器给每个session分配一个唯一的jsessionid，并通过cookie发送给客户端。当客户端发起新的请求的时候，将在cookie头中携带这个jsessionid，这样服务器能找到客户端对应的session。</li><li>使用URL回写来实现。URL回写是指服务器在发送给浏览器页面的所有链接中都携带jsessionid的参数，这样客户端点击任何一个链接，都会把jsessionid带回服务器。如果直接在浏览器输入服务端资源的URL来请求该资源，那么session是匹配不到的。tomcat对session的实现是一开始同时使用cookie和url回写机制。如果发现客户端支持cookie，就继续使用cookie，停止使用url回写。如果cookie被禁止就使用url回写。</li></ol></li></ol><h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><ol><li>Cookie数据存放在客户的浏览器上（客户端），Session数据存放在服务器上。</li><li>Session相对于Cookie更安全。别人可以分析存放在本地的Cookie，并进行Cookie欺骗。若考虑到安全性应使用Session</li><li>若考虑到减轻服务器负担，应当使用Cookie。</li></ol>]]></content>
+      
+      
       <categories>
-        <category>计网</category>
+          
+          <category> 计网 </category>
+          
       </categories>
-      <tags>
-        <tag>计网</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[在浏览器地址键入URL，按下回车之后经历的流程]]></title>
-    <url>%2F2019%2F03%2F01%2F%E8%A7%88%E5%99%A8%E5%9C%B0%E5%9D%80%E9%94%AE%E5%85%A5URL%EF%BC%8C%E6%8C%89%E4%B8%8B%E5%9B%9E%E8%BD%A6%E4%B9%8B%E5%90%8E%E7%BB%8F%E5%8E%86%E7%9A%84%E6%B5%81%E7%A8%8B%2F</url>
-    <content type="text"><![CDATA[首先浏览器会依据URL逐层查询DNS服务器缓存，解析URL中的域名所对应的IP地址。DNS地址从近到远依次是浏览器缓存、系统缓存、路由器缓存、IPS服务器缓存、根域名服务器缓存、顶级域名服务器缓存，从哪个缓存找到对应的IP则直接返回，不再查询后面的缓存。 找到IP地址后，根据IP地址和对应端口(默认80端口)和服务器建立TCP连接。（可结合TCP三次握手） 浏览器发出读取文件的HTTP请求，该请求发送给服务器。 服务器对浏览器请求作出响应，并把对应的带有HTML文本的HTTP响应报文发送给浏览器。 浏览器解析HTML渲染页面 浏览器释放TCP连接（TCP四次挥手）]]></content>
+      
+      
+        <tags>
+            
+            <tag> 计网 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>GET请求和POST请求区别</title>
+      <link href="/2019/03/01/T%E8%AF%B7%E6%B1%82%E5%92%8CPOST%E8%AF%B7%E6%B1%82%E5%8C%BA%E5%88%AB/"/>
+      <url>/2019/03/01/T%E8%AF%B7%E6%B1%82%E5%92%8CPOST%E8%AF%B7%E6%B1%82%E5%8C%BA%E5%88%AB/</url>
+      
+        <content type="html"><![CDATA[<p>HTTP/1.1中对幂等性的定义是：一次和多次请求某一个资源<strong>对于资源本身</strong>应该具有同样的结果（网络超时等问题除外）。也就是说，<strong>其任意多次执行对资源本身所产生的影响均与一次执行的影响相同</strong>。</p><ol><li>HTTP报文层面：GET将请求信息放在URL，POST放在报文体中</li><li>数据库层面：GET符合幂等性（对数据库的一次操作和多次操作获得的结果是一致的，则符合幂等性）和安全性（对数据库的操作没有改变数据库中的数据，则符合安全性），GET请求是做查询操作的，因此不会改变数据库中原有的数据，大致可认为符合幂等性和安全性；POST都不符合，POST请求会往数据库中提交数据，因此会改变数据库中的数据，其次POST请求方式每次获得的结果都有可能不一样，因为POST请求是作用在上一级的URL上的，则每一次请求都会添加一份新资源（这也是POST和PUT的最大区别，PUT是幂等的）。</li><li>其他层面：GET可以被缓存、被存储，而POST不行。</li></ol>]]></content>
+      
+      
       <categories>
-        <category>计网</category>
+          
+          <category> 计网 </category>
+          
       </categories>
-      <tags>
-        <tag>计网</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[TCP和UDP区别]]></title>
-    <url>%2F2019%2F03%2F01%2FCP%E5%92%8CUDP%E5%8C%BA%E5%88%AB%2F</url>
-    <content type="text"><![CDATA[TCP和UDP区别首先了解一下UDP特点 面向非连接的协议，传输数据之前源端和终端无建立连接 不维护连接状态，支持同时向多个客户端传输相同的消息 数据包报头只有8个字节，额外开销小 吞吐量只受限于数据生成速率、传输速率以及机器性能 尽最大努力交付，不保证可靠交付，不需要维护复制的链接状态表 面向报文，不对应用程序提交的报文信息进行拆分或合并(发送方的UDP对应用程序交下来的报文在添加首部后就向下交付给IP层，既不拆分也不合并，而是保留这些报文的边界，因此应用程序需要选择合适的报文大小) 区别 TCP面向连接，UDP无连接。TCP有三次握手的连接过程；UDP适合消息的多拨发布，从单个点向多个点传输信息。 可靠性。TCP是可靠的，利用握手确认和重传机制提供了可靠性保证；而UDP则可能会丢失数据包，不知道有没有被接收。 有序性。TCP利用序列号保证了消息报的顺序交付，到达时可能无序，但TCP最终会排序；UDP不具备有序性。 速度。TCP速度比较慢，因为要创建连接保证消息的可靠性和有序性，需要做额外的事情就比较慢；UDP更适合对于速度比较敏感的应用，比如在线视频媒体，电视广播，多人在线游戏等。 量级。TCP属于重量级，UDP属于轻量级。体现在元数据的头大小，TCP是20个字节，而UDP是8个字节。]]></content>
+      
+      
+        <tags>
+            
+            <tag> 计网 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>在浏览器地址键入URL，按下回车之后经历的流程</title>
+      <link href="/2019/03/01/%E8%A7%88%E5%99%A8%E5%9C%B0%E5%9D%80%E9%94%AE%E5%85%A5URL%EF%BC%8C%E6%8C%89%E4%B8%8B%E5%9B%9E%E8%BD%A6%E4%B9%8B%E5%90%8E%E7%BB%8F%E5%8E%86%E7%9A%84%E6%B5%81%E7%A8%8B/"/>
+      <url>/2019/03/01/%E8%A7%88%E5%99%A8%E5%9C%B0%E5%9D%80%E9%94%AE%E5%85%A5URL%EF%BC%8C%E6%8C%89%E4%B8%8B%E5%9B%9E%E8%BD%A6%E4%B9%8B%E5%90%8E%E7%BB%8F%E5%8E%86%E7%9A%84%E6%B5%81%E7%A8%8B/</url>
+      
+        <content type="html"><![CDATA[<ol><li>首先浏览器会依据URL逐层查询<strong>DNS</strong>服务器缓存，解析URL中的域名所对应的IP地址。DNS地址从近到远依次是浏览器缓存、系统缓存、路由器缓存、IPS服务器缓存、根域名服务器缓存、顶级域名服务器缓存，从哪个缓存找到对应的IP则直接返回，不再查询后面的缓存。</li><li>找到IP地址后，根据IP地址和对应端口(默认80端口)和服务器建立<strong>TCP连接</strong>。（可结合TCP三次握手）</li><li>浏览器发出读取文件的<strong>HTTP请求</strong>，该请求发送给服务器。</li><li>服务器对浏览器请求作出响应，并把对应的带有HTML文本的<strong>HTTP响应报文</strong>发送给浏览器。</li><li>浏览器解析HTML渲染页面</li><li>浏览器释放TCP连接（TCP四次挥手）</li></ol>]]></content>
+      
+      
       <categories>
-        <category>计网</category>
+          
+          <category> 计网 </category>
+          
       </categories>
-      <tags>
-        <tag>计网</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[TCP握手和挥手]]></title>
-    <url>%2F2019%2F02%2F28%2FCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%2F</url>
-    <content type="text"><![CDATA[TCP三次握手在TCP/IP协议中，TCP协议提供可靠的连接服务，采用三次握手建立一个连接。TCP三次握手大概流程： 第一次握手：建立连接时，客户端发送SYN包（syn = j）到服务器，并进入SYN_SEND状态，等待服务器确认； 第二次握手：服务器收到SYN包，必须确认客户端的SYN（ack = j+1），同时自己也发送一个SYN包（syn = k），即SYN+ACK包，此时服务器进入SYN_RECV状态； 第三次握手：客户端收到服务器的ACK+SYN包，向服务器发送确认包ACK（ack = k+1），此包发送完毕，客户端和服务器都进入ESTABLISHED状态，完成三次握手。 为什么要三次握手才能建立连接​ 主要是为了初始化Sequence Number的初始值。通信的双方要互相通知对方自己初始化的Sequence Number，作为以后数据通信的序号，以保证应用层接收的数据不会因为网络上的传输问题而乱序。即TCP会用这个序号来拼接数据。因此在服务器回发他的Sequence Number即第二次握手之后，客户端还需要发送确认报文给服务器，告诉服务器客户端已经收到你初始化的Sequence Number了。 TCP四次挥手TCP采用四次挥手来释放连接（客户端或服务器都可以提出终止连接的请求，以下假定为客户端发送） 第一次挥手：客户端发送一个FIN，用来关闭客户端到服务器的数据传送，客户端进入FIN_WAIT_1状态； 第二次挥手：服务器收到FIN后，发送一个ACK给客户端，确认序号为收到序号+1（与SYN相同，一个FIN占用一个序号），服务器进入CLOSE_WAIT状态； 第三次挥手：服务器发送一个FIN，用来关闭服务器到客户端的数据传送，服务器进入LAST_ACK状态； 第四次挥手：客户端收到FIN后，客户端进入TIME_WAIT状态，接着发送一个ACK给服务器，确认序号为收到序号+1，服务器进入CLOSED状态，完成四次挥手。 为什么会有TIME_WAIT状态 确保有足够的时间让对方收到ACK包 避免新旧连接混淆 为什么需要四次握手才能断开连接因为全双工，发送方和接收方都需要FIN报文和ACK报文]]></content>
+      
+      
+        <tags>
+            
+            <tag> 计网 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>TCP和UDP区别</title>
+      <link href="/2019/03/01/CP%E5%92%8CUDP%E5%8C%BA%E5%88%AB/"/>
+      <url>/2019/03/01/CP%E5%92%8CUDP%E5%8C%BA%E5%88%AB/</url>
+      
+        <content type="html"><![CDATA[<h1 id="TCP和UDP区别"><a href="#TCP和UDP区别" class="headerlink" title="TCP和UDP区别"></a>TCP和UDP区别</h1><h2 id="首先了解一下UDP特点"><a href="#首先了解一下UDP特点" class="headerlink" title="首先了解一下UDP特点"></a>首先了解一下UDP特点</h2><ol><li>面向非连接的协议，传输数据之前源端和终端无建立连接</li><li>不维护连接状态，支持同时向多个客户端传输相同的消息</li><li>数据包报头只有8个字节，额外开销小</li><li>吞吐量只受限于数据生成速率、传输速率以及机器性能</li><li>尽最大努力交付，不保证可靠交付，不需要维护复制的链接状态表</li><li>面向报文，不对应用程序提交的报文信息进行拆分或合并(发送方的UDP对应用程序交下来的报文在添加首部后就向下交付给IP层，既不拆分也不合并，而是保留这些报文的边界，因此应用程序需要选择合适的报文大小)</li></ol><h2 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h2><ol><li>TCP面向连接，UDP无连接。TCP有三次握手的连接过程；UDP适合消息的多拨发布，从单个点向多个点传输信息。</li><li>可靠性。TCP是可靠的，利用握手确认和重传机制提供了可靠性保证；而UDP则可能会丢失数据包，不知道有没有被接收。</li><li>有序性。TCP利用序列号保证了消息报的顺序交付，到达时可能无序，但TCP最终会排序；UDP不具备有序性。</li><li>速度。TCP速度比较慢，因为要创建连接保证消息的可靠性和有序性，需要做额外的事情就比较慢；UDP更适合对于速度比较敏感的应用，比如在线视频媒体，电视广播，多人在线游戏等。</li><li>量级。TCP属于重量级，UDP属于轻量级。体现在元数据的头大小，TCP是20个字节，而UDP是8个字节。</li></ol>]]></content>
+      
+      
       <categories>
-        <category>计网</category>
+          
+          <category> 计网 </category>
+          
       </categories>
-      <tags>
-        <tag>计网</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[ssm整合配置文件参考]]></title>
-    <url>%2F2019%2F02%2F28%2Fm%E6%95%B4%E5%90%88%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%8F%82%E8%80%83%2F</url>
-    <content type="text"><![CDATA[web.xml:123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133134135136137138139140141142143144145146147148149150151152153&lt;?xml version="1.0" encoding="UTF-8"?&gt;-&lt;web-app version="2.5" id="WebApp_ID" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;-&lt;welcome-file-list&gt;&lt;welcome-file&gt;login.jsp&lt;/welcome-file&gt;&lt;/welcome-file-list&gt;&lt;!-- 1启动spring容器 --&gt;&lt;!-- needed for ContextLoaderListener --&gt;-&lt;context-param&gt;&lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;&lt;param-value&gt;classpath:applicationContext.xml&lt;/param-value&gt;&lt;/context-param&gt;&lt;!-- Bootstraps the root web application context before servlet initialization --&gt;-&lt;listener&gt;&lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;&lt;/listener&gt;&lt;!-- 2 springmvc的前端控制器，拦截所有请求 --&gt;&lt;!-- The front controller of this Spring Web application, responsible forhandling all application requests --&gt;-&lt;servlet&gt;&lt;servlet-name&gt;dispatcherServlet&lt;/servlet-name&gt;&lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/servlet-class&gt;&lt;load-on-startup&gt;1&lt;/load-on-startup&gt;&lt;/servlet&gt;&lt;!-- Map all requests to the DispatcherServlet for handling --&gt;-&lt;servlet-mapping&gt;&lt;servlet-name&gt;dispatcherServlet&lt;/servlet-name&gt;&lt;url-pattern&gt;/&lt;/url-pattern&gt;&lt;/servlet-mapping&gt;&lt;!-- 3字符编码过滤器 必须放在所有过滤器之前 --&gt;-&lt;filter&gt;&lt;filter-name&gt;CharacterEncodingFilter&lt;/filter-name&gt;&lt;filter-class&gt;org.springframework.web.filter.CharacterEncodingFilter&lt;/filter-class&gt;-&lt;init-param&gt;&lt;param-name&gt;encoding&lt;/param-name&gt;&lt;param-value&gt;UTF-8&lt;/param-value&gt;&lt;/init-param&gt;-&lt;init-param&gt;&lt;param-name&gt;forceRequestEncoding&lt;/param-name&gt;&lt;param-value&gt;true&lt;/param-value&gt;&lt;/init-param&gt;-&lt;init-param&gt;&lt;param-name&gt;forceResponseEncoding&lt;/param-name&gt;&lt;param-value&gt;true&lt;/param-value&gt;&lt;/init-param&gt;&lt;/filter&gt;-&lt;filter-mapping&gt;&lt;filter-name&gt;CharacterEncodingFilter&lt;/filter-name&gt;&lt;url-pattern&gt;/*&lt;/url-pattern&gt;&lt;/filter-mapping&gt;&lt;!-- 4rest风格 将页面普通的 post请求转为指定的delete或put请求 --&gt;-&lt;filter&gt;&lt;filter-name&gt;HiddenHttpMethodFilter&lt;/filter-name&gt;&lt;filter-class&gt;org.springframework.web.filter.HiddenHttpMethodFilter&lt;/filter-class&gt;&lt;/filter&gt;-&lt;filter-mapping&gt;&lt;filter-name&gt;HiddenHttpMethodFilter&lt;/filter-name&gt;&lt;url-pattern&gt;/*&lt;/url-pattern&gt;&lt;/filter-mapping&gt;-&lt;filter&gt;&lt;filter-name&gt;HttpPutFormContentFilter&lt;/filter-name&gt;&lt;filter-class&gt;org.springframework.web.filter.HttpPutFormContentFilter&lt;/filter-class&gt;&lt;/filter&gt;-&lt;filter-mapping&gt;&lt;filter-name&gt;HttpPutFormContentFilter&lt;/filter-name&gt;&lt;url-pattern&gt;/*&lt;/url-pattern&gt;&lt;/filter-mapping&gt;&lt;/web-app&gt; applicationContext.xml123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133134135136137138139140141142143&lt;?xml version="1.0" encoding="UTF-8"?&gt;-&lt;beans xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans"&gt;-&lt;context:component-scan base-package="com.ljj"&gt;&lt;context:exclude-filter expression="org.springframework.stereotype.Controller" type="annotation"/&gt;&lt;/context:component-scan&gt;&lt;!-- Spring配置文件 主要配置和业务逻辑有关的 --&gt;&lt;!-- ==================数据源 事务控制……============= --&gt;&lt;context:property-placeholder location="classpath:dbconfig.properties"/&gt;-&lt;bean class="com.mchange.v2.c3p0.ComboPooledDataSource" id="pooledDataSource"&gt;&lt;property value="$&#123;jdbc.jdbcUrl&#125;" name="jdbcUrl"/&gt;&lt;property value="$&#123;jdbc.jdbcDriver&#125;" name="driverClass"/&gt;&lt;property value="$&#123;jdbc.user&#125;" name="user"/&gt;&lt;property value="$&#123;jdbc.password&#125;" name="password"/&gt;&lt;/bean&gt;&lt;!-- ============================================ --&gt;&lt;!-- =========配置和mybatis的整合 ===============--&gt;-&lt;bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory"&gt;&lt;!-- 制定mybatis全局配置文件的位置 --&gt;&lt;property value="classpath:mybatis-config.xml" name="configLocation"/&gt;&lt;property name="dataSource" ref="pooledDataSource"/&gt;&lt;!-- 制定mybatis，mapper文件位置 --&gt;&lt;property value="classpath:mapper/*xml" name="mapperLocations"/&gt;&lt;/bean&gt;&lt;!-- 配置扫描器，将mybatis接口的实现加入到ioc容器中 --&gt;-&lt;bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"&gt;&lt;!-- 扫描所有dao接口的实现，加入到ioc容器中 --&gt;&lt;property value="com.ljj.dao" name="basePackage"/&gt;&lt;property value="sqlSessionFactory" name="sqlSessionFactoryBeanName"/&gt;&lt;/bean&gt;&lt;!-- 配置一个可以批量生成的sqlsession --&gt;-&lt;bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSession"&gt;&lt;constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/&gt;&lt;constructor-arg value="BATCH" name="executorType"/&gt;&lt;/bean&gt;&lt;!-- ============================================ --&gt;&lt;!-- ===========事务控制的配置==================== --&gt;-&lt;bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager"&gt;&lt;!-- 控制住数据源 --&gt;&lt;property name="dataSource" ref="pooledDataSource"/&gt;&lt;/bean&gt;&lt;!-- 开启基于注解的事务，使用xml配置形式的事务 --&gt;-&lt;aop:config&gt;&lt;!-- 切入点表达式 --&gt;&lt;aop:pointcut expression="execution(* com.ljj.service..*(..))" id="txPoint"/&gt;&lt;!-- 配置事务增强 --&gt;&lt;aop:advisor pointcut-ref="txPoint" advice-ref="txAdvice"/&gt;&lt;/aop:config&gt;&lt;!-- 配置事务增强，即事务如何切入 --&gt;-&lt;tx:advice id="txAdvice" transaction-manager="transactionManager"&gt;-&lt;tx:attributes&gt;&lt;!-- 所有方法都是事务方法 --&gt;&lt;tx:method name="*"/&gt;&lt;!-- 以get开始的所有方法 --&gt;&lt;tx:method name="get*" read-only="true"/&gt;&lt;/tx:attributes&gt;&lt;/tx:advice&gt;&lt;!-- Spring配置文件的核心点（数据源，与mybatis的整合，事务控制） --&gt;&lt;/beans&gt; dispatcherServlet-servlet.xml12345678910111213141516171819202122232425262728293031323334353637383940414243&lt;?xml version="1.0" encoding="UTF-8"?&gt;-&lt;beans xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans"&gt;&lt;!-- springmvc的配置文件 包含网站跳转逻辑，配置 --&gt;-&lt;context:component-scan use-default-filters="false" base-package="com.ljj"&gt;&lt;!-- 只扫描控制器 --&gt;&lt;context:include-filter expression="org.springframework.stereotype.Controller" type="annotation"/&gt;&lt;/context:component-scan&gt;&lt;!-- 配置视图解析器，方便页面返回 --&gt;-&lt;bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"&gt;&lt;property value="/WEB-INF/views/" name="prefix"/&gt;&lt;property value=".jsp" name="suffix"/&gt;&lt;/bean&gt;&lt;!-- 两个标准配置 --&gt;&lt;!-- 将springmvc不能处理的请求交给tomcat --&gt;&lt;mvc:default-servlet-handler/&gt;&lt;!-- 能支持springmvc更高级的一些功能，JSR003校验…… 映射动态请求 --&gt;&lt;mvc:annotation-driven/&gt;&lt;/beans&gt; mybatis-config.xml123456789101112131415161718192021222324252627282930313233&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;!DOCTYPE configuration SYSTEM "http://mybatis.org/dtd/mybatis-3-config.dtd" PUBLIC "-//mybatis.org//DTD Config 3.0//EN"&gt;-&lt;configuration&gt;-&lt;settings&gt;&lt;setting value="true" name="mapUnderscoreToCamelCase"/&gt;&lt;/settings&gt;-&lt;typeAliases&gt;&lt;package name="com.ljj.bean"/&gt;&lt;/typeAliases&gt;-&lt;plugins&gt;-&lt;plugin interceptor="com.github.pagehelper.PageInterceptor"&gt;&lt;property value="true" name="reasonable"/&gt;&lt;/plugin&gt;&lt;/plugins&gt;&lt;/configuration&gt;]]></content>
+      
+      
+        <tags>
+            
+            <tag> 计网 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>TCP握手和挥手</title>
+      <link href="/2019/02/28/CP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/"/>
+      <url>/2019/02/28/CP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/</url>
+      
+        <content type="html"><![CDATA[<h1 id="TCP三次握手"><a href="#TCP三次握手" class="headerlink" title="TCP三次握手"></a>TCP三次握手</h1><p>在TCP/IP协议中，TCP协议提供可靠的连接服务，采用三次握手建立一个连接。TCP三次握手大概流程：</p><ol><li>第一次握手：建立连接时，客户端发送SYN包（syn = j）到服务器，并进入SYN_SEND状态，等待服务器确认；</li><li>第二次握手：服务器收到SYN包，必须确认客户端的SYN（ack = j+1），同时自己也发送一个SYN包（syn = k），即SYN+ACK包，此时服务器进入SYN_RECV状态；</li><li>第三次握手：客户端收到服务器的ACK+SYN包，向服务器发送确认包ACK（ack = k+1），此包发送完毕，客户端和服务器都进入ESTABLISHED状态，完成三次握手。</li></ol><h2 id="为什么要三次握手才能建立连接"><a href="#为什么要三次握手才能建立连接" class="headerlink" title="为什么要三次握手才能建立连接"></a>为什么要三次握手才能建立连接</h2><p>​    主要是为了初始化Sequence Number的初始值。通信的双方要互相通知对方自己初始化的Sequence Number，作为以后数据通信的序号，以保证应用层接收的数据不会因为网络上的传输问题而乱序。即TCP会用这个序号来拼接数据。因此在服务器回发他的Sequence Number即第二次握手之后，客户端还需要发送确认报文给服务器，告诉服务器客户端已经收到你初始化的Sequence Number了。</p><h1 id="TCP四次挥手"><a href="#TCP四次挥手" class="headerlink" title="TCP四次挥手"></a>TCP四次挥手</h1><p>TCP采用四次挥手来释放连接（客户端或服务器都可以提出终止连接的请求，以下假定为客户端发送）</p><ol><li>第一次挥手：客户端发送一个FIN，用来关闭客户端到服务器的数据传送，客户端进入FIN_WAIT_1状态；</li><li>第二次挥手：服务器收到FIN后，发送一个ACK给客户端，确认序号为收到序号+1（与SYN相同，一个FIN占用一个序号），服务器进入CLOSE_WAIT状态；</li><li>第三次挥手：服务器发送一个FIN，用来关闭服务器到客户端的数据传送，服务器进入LAST_ACK状态；</li><li>第四次挥手：客户端收到FIN后，客户端进入TIME_WAIT状态，接着发送一个ACK给服务器，确认序号为收到序号+1，服务器进入CLOSED状态，完成四次挥手。</li></ol><h2 id="为什么会有TIME-WAIT状态"><a href="#为什么会有TIME-WAIT状态" class="headerlink" title="为什么会有TIME_WAIT状态"></a>为什么会有TIME_WAIT状态</h2><ol><li>确保有足够的时间让对方收到ACK包</li><li>避免新旧连接混淆</li></ol><h2 id="为什么需要四次握手才能断开连接"><a href="#为什么需要四次握手才能断开连接" class="headerlink" title="为什么需要四次握手才能断开连接"></a>为什么需要四次握手才能断开连接</h2><p>因为全双工，发送方和接收方都需要FIN报文和ACK报文</p>]]></content>
+      
+      
       <categories>
-        <category>ssm</category>
+          
+          <category> 计网 </category>
+          
       </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>ssm</tag>
-        <tag>springmvc</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[自己日常用LINUX命令]]></title>
-    <url>%2F2019%2F02%2F28%2F%E6%97%A5%E5%B8%B8%E7%94%A8LINUX%E5%91%BD%E4%BB%A4%2F</url>
-    <content type="text"><![CDATA[查看tomcat进程：ps -ef | grep tomcat（ps -ef 命令就是列出当前所有的进程信息，grep 起到一个过滤的文件）；ps -ef | grep tomcat | grep -v &quot;grep&quot; 可把grep本身指令也过滤掉 管道操作符 | ：可将指令连接起来，前一个指令的输出作为后一个指令的输入 整行删除：CTRL K，光标往后删除；CTRL U，光标往前删 删除当前文件夹下所有文件：rm -f * 删除文件夹及内容：rm -fr * 实时查看文件内容尾：tail -f filename 查看服务器对外ip：curl ifconfig.me 比较实用的指令：grep；find；awk；sed；|]]></content>
+      
+      
+        <tags>
+            
+            <tag> 计网 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>ssm整合配置文件参考</title>
+      <link href="/2019/02/28/m%E6%95%B4%E5%90%88%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%8F%82%E8%80%83/"/>
+      <url>/2019/02/28/m%E6%95%B4%E5%90%88%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%8F%82%E8%80%83/</url>
+      
+        <content type="html"><![CDATA[<h1 id="web-xml"><a href="#web-xml" class="headerlink" title="web.xml:"></a><strong>web.xml:</strong></h1><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">web-app</span> <span class="attr">version</span>=<span class="string">"2.5"</span> <span class="attr">id</span>=<span class="string">"WebApp_ID"</span> <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"</span> <span class="attr">xmlns</span>=<span class="string">"http://java.sun.com/xml/ns/javaee"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">welcome-file-list</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">welcome-file</span>&gt;</span>login.jsp<span class="tag">&lt;/<span class="name">welcome-file</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">welcome-file-list</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 1启动spring容器 --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- needed for ContextLoaderListener --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">context-param</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">param-value</span>&gt;</span>classpath:applicationContext.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">context-param</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- Bootstraps the root web application context before servlet initialization --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">listener</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">listener-class</span>&gt;</span>org.springframework.web.context.ContextLoaderListener<span class="tag">&lt;/<span class="name">listener-class</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">listener</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 2 springmvc的前端控制器，拦截所有请求 --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- The front controller of this Spring Web application, responsible forhandling all application requests --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>dispatcherServlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">load-on-startup</span>&gt;</span>1<span class="tag">&lt;/<span class="name">load-on-startup</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- Map all requests to the DispatcherServlet for handling --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>dispatcherServlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 3字符编码过滤器 必须放在所有过滤器之前 --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>CharacterEncodingFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>org.springframework.web.filter.CharacterEncodingFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">param-name</span>&gt;</span>encoding<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">param-value</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">param-name</span>&gt;</span>forceRequestEncoding<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">param-value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">param-name</span>&gt;</span>forceResponseEncoding<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">param-value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>CharacterEncodingFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 4rest风格 将页面普通的 post请求转为指定的delete或put请求 --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>HiddenHttpMethodFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>org.springframework.web.filter.HiddenHttpMethodFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>HiddenHttpMethodFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>HttpPutFormContentFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>org.springframework.web.filter.HttpPutFormContentFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>HttpPutFormContentFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></span><br></pre></td></tr></table></figure><h1 id="applicationContext-xml"><a href="#applicationContext-xml" class="headerlink" title="applicationContext.xml"></a><strong>applicationContext.xml</strong></h1><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">beans</span> <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd"</span> <span class="attr">xmlns:tx</span>=<span class="string">"http://www.springframework.org/schema/tx"</span> <span class="attr">xmlns:aop</span>=<span class="string">"http://www.springframework.org/schema/aop"</span> <span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"com.ljj"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">context:exclude-filter</span> <span class="attr">expression</span>=<span class="string">"org.springframework.stereotype.Controller"</span> <span class="attr">type</span>=<span class="string">"annotation"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">context:component-scan</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- Spring配置文件 主要配置和业务逻辑有关的 --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- ==================数据源 事务控制……============= --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">context:property-placeholder</span> <span class="attr">location</span>=<span class="string">"classpath:dbconfig.properties"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"com.mchange.v2.c3p0.ComboPooledDataSource"</span> <span class="attr">id</span>=<span class="string">"pooledDataSource"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.jdbcUrl&#125;"</span> <span class="attr">name</span>=<span class="string">"jdbcUrl"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.jdbcDriver&#125;"</span> <span class="attr">name</span>=<span class="string">"driverClass"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.user&#125;"</span> <span class="attr">name</span>=<span class="string">"user"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.password&#125;"</span> <span class="attr">name</span>=<span class="string">"password"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- ============================================ --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- =========配置和mybatis的整合 ===============--&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.SqlSessionFactoryBean"</span> <span class="attr">id</span>=<span class="string">"sqlSessionFactory"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 制定mybatis全局配置文件的位置 --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">value</span>=<span class="string">"classpath:mybatis-config.xml"</span> <span class="attr">name</span>=<span class="string">"configLocation"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"pooledDataSource"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 制定mybatis，mapper文件位置 --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">value</span>=<span class="string">"classpath:mapper/*xml"</span> <span class="attr">name</span>=<span class="string">"mapperLocations"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 配置扫描器，将mybatis接口的实现加入到ioc容器中 --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.mapper.MapperScannerConfigurer"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 扫描所有dao接口的实现，加入到ioc容器中 --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">value</span>=<span class="string">"com.ljj.dao"</span> <span class="attr">name</span>=<span class="string">"basePackage"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">value</span>=<span class="string">"sqlSessionFactory"</span> <span class="attr">name</span>=<span class="string">"sqlSessionFactoryBeanName"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 配置一个可以批量生成的sqlsession --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.SqlSessionTemplate"</span> <span class="attr">id</span>=<span class="string">"sqlSession"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">name</span>=<span class="string">"sqlSessionFactory"</span> <span class="attr">ref</span>=<span class="string">"sqlSessionFactory"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">value</span>=<span class="string">"BATCH"</span> <span class="attr">name</span>=<span class="string">"executorType"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- ============================================ --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- ===========事务控制的配置==================== --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.jdbc.datasource.DataSourceTransactionManager"</span> <span class="attr">id</span>=<span class="string">"transactionManager"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 控制住数据源 --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"pooledDataSource"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 开启基于注解的事务，使用xml配置形式的事务 --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 切入点表达式 --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">expression</span>=<span class="string">"execution(* com.ljj.service..*(..))"</span> <span class="attr">id</span>=<span class="string">"txPoint"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 配置事务增强 --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">aop:advisor</span> <span class="attr">pointcut-ref</span>=<span class="string">"txPoint"</span> <span class="attr">advice-ref</span>=<span class="string">"txAdvice"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 配置事务增强，即事务如何切入 --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">tx:advice</span> <span class="attr">id</span>=<span class="string">"txAdvice"</span> <span class="attr">transaction-manager</span>=<span class="string">"transactionManager"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">tx:attributes</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 所有方法都是事务方法 --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"*"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 以get开始的所有方法 --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"get*"</span> <span class="attr">read-only</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">tx:attributes</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">tx:advice</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- Spring配置文件的核心点（数据源，与mybatis的整合，事务控制） --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure><h1 id="dispatcherServlet-servlet-xml"><a href="#dispatcherServlet-servlet-xml" class="headerlink" title="dispatcherServlet-servlet.xml"></a><strong>dispatcherServlet-servlet.xml</strong></h1><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">beans</span> <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd"</span> <span class="attr">xmlns:mvc</span>=<span class="string">"http://www.springframework.org/schema/mvc"</span> <span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- springmvc的配置文件 包含网站跳转逻辑，配置 --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">use-default-filters</span>=<span class="string">"false"</span> <span class="attr">base-package</span>=<span class="string">"com.ljj"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 只扫描控制器 --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">context:include-filter</span> <span class="attr">expression</span>=<span class="string">"org.springframework.stereotype.Controller"</span> <span class="attr">type</span>=<span class="string">"annotation"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">context:component-scan</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 配置视图解析器，方便页面返回 --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.web.servlet.view.InternalResourceViewResolver"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">value</span>=<span class="string">"/WEB-INF/views/"</span> <span class="attr">name</span>=<span class="string">"prefix"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">value</span>=<span class="string">".jsp"</span> <span class="attr">name</span>=<span class="string">"suffix"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 两个标准配置 --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 将springmvc不能处理的请求交给tomcat --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">mvc:default-servlet-handler</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 能支持springmvc更高级的一些功能，JSR003校验…… 映射动态请求 --&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">mvc:annotation-driven</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure><h1 id="mybatis-config-xml"><a href="#mybatis-config-xml" class="headerlink" title="mybatis-config.xml"></a><strong>mybatis-config.xml</strong></h1><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;!DOCTYPE configuration SYSTEM "http://mybatis.org/dtd/mybatis-3-config.dtd" PUBLIC "-//mybatis.org//DTD Config 3.0//EN"&gt;</span></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">settings</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">setting</span> <span class="attr">value</span>=<span class="string">"true"</span> <span class="attr">name</span>=<span class="string">"mapUnderscoreToCamelCase"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">settings</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">typeAliases</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">package</span> <span class="attr">name</span>=<span class="string">"com.ljj.bean"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">typeAliases</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-<span class="tag">&lt;<span class="name">plugin</span> <span class="attr">interceptor</span>=<span class="string">"com.github.pagehelper.PageInterceptor"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">value</span>=<span class="string">"true"</span> <span class="attr">name</span>=<span class="string">"reasonable"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>]]></content>
+      
+      
       <categories>
-        <category>linux</category>
+          
+          <category> ssm </category>
+          
       </categories>
-      <tags>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[每次hexo d部署后都要在github仓库上重新保存域名]]></title>
-    <url>%2F2019%2F02%2F27%2F%E6%AC%A1hexo-d%E9%83%A8%E7%BD%B2%E5%90%8E%E9%83%BD%E8%A6%81%E5%9C%A8github%E4%BB%93%E5%BA%93%E4%B8%8A%E9%87%8D%E6%96%B0%E4%BF%9D%E5%AD%98%E5%9F%9F%E5%90%8D%2F</url>
-    <content type="text"><![CDATA[解决办法： 在根目录的source文件夹下新建一个CNAME文件，我使用的是Notepad++，内容就写自己的域名，保存时选all type hexo g重新生成一下静态文件 hexo d部署上github]]></content>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[hexo-admin安装]]></title>
-    <url>%2F2019%2F02%2F26%2Fhexo-admin%E5%AE%89%E8%A3%85%2F</url>
-    <content type="text"><![CDATA[安装Hexo Admin 插件在hexo目录下输入如下命令： 12npm install --save hexo-adminhexo server -d 设置后台登录账号密码 浏览器访问 http://localhost:4000/admin ，并点击Settings 填好登录账号、密码和加密字符串，并将下方生成的内容粘贴到根目录_config.yml下 hexo中图片插入 设置config.yml的post_asset_folder为true，开启资源文件夹功能 通过相对路径标签引用资源，而不是markdown语法引用。{\% asset_img 1.png [title] \%}上面的“\”要去掉，这里因为是hexo的指令，不能直接显示在文章里，所以这里才加上。]]></content>
+      
+      
+        <tags>
+            
+            <tag> java </tag>
+            
+            <tag> ssm </tag>
+            
+            <tag> springmvc </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>自己日常用LINUX命令</title>
+      <link href="/2019/02/28/%E6%97%A5%E5%B8%B8%E7%94%A8LINUX%E5%91%BD%E4%BB%A4/"/>
+      <url>/2019/02/28/%E6%97%A5%E5%B8%B8%E7%94%A8LINUX%E5%91%BD%E4%BB%A4/</url>
+      
+        <content type="html"><![CDATA[<p>查看tomcat进程：<code>ps -ef | grep tomcat</code>（ps -ef 命令就是列出当前所有的进程信息，grep 起到一个过滤的文件）；<code>ps -ef | grep tomcat | grep -v &quot;grep&quot;</code> 可把grep本身指令也过滤掉</p><p>管道操作符 | ：可将指令连接起来，前一个指令的输出作为后一个指令的输入</p><p>整行删除：CTRL K，光标往后删除；CTRL U，光标往前删</p><p>删除当前文件夹下所有文件：<code>rm -f *</code></p><p>删除文件夹及内容：<code>rm -fr *</code></p><p>实时查看文件内容尾：<code>tail -f filename</code></p><p>查看服务器对外ip：<code>curl ifconfig.me</code></p><p>比较实用的指令：grep；find；awk；sed；|</p>]]></content>
+      
+      
       <categories>
-        <category>hexo</category>
+          
+          <category> linux </category>
+          
       </categories>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Hello World]]></title>
-    <url>%2F2019%2F02%2F26%2Fhello-world%2F</url>
-    <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
-      <tags>
-        <tag>init</tag>
-      </tags>
-  </entry>
+      
+      
+        <tags>
+            
+            <tag> linux </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>每次hexo d部署后都要在github仓库上重新保存域名</title>
+      <link href="/2019/02/27/%E6%AC%A1hexo-d%E9%83%A8%E7%BD%B2%E5%90%8E%E9%83%BD%E8%A6%81%E5%9C%A8github%E4%BB%93%E5%BA%93%E4%B8%8A%E9%87%8D%E6%96%B0%E4%BF%9D%E5%AD%98%E5%9F%9F%E5%90%8D/"/>
+      <url>/2019/02/27/%E6%AC%A1hexo-d%E9%83%A8%E7%BD%B2%E5%90%8E%E9%83%BD%E8%A6%81%E5%9C%A8github%E4%BB%93%E5%BA%93%E4%B8%8A%E9%87%8D%E6%96%B0%E4%BF%9D%E5%AD%98%E5%9F%9F%E5%90%8D/</url>
+      
+        <content type="html"><![CDATA[<p>解决办法：</p><ol><li>在根目录的source文件夹下新建一个CNAME文件，我使用的是Notepad++，内容就写自己的域名，保存时选all type</li><li>hexo g重新生成一下静态文件</li><li>hexo d部署上github</li></ol>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> hexo </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>hexo-admin安装</title>
+      <link href="/2019/02/26/hexo-admin%E5%AE%89%E8%A3%85/"/>
+      <url>/2019/02/26/hexo-admin%E5%AE%89%E8%A3%85/</url>
+      
+        <content type="html"><![CDATA[<h1 id="安装Hexo-Admin-插件"><a href="#安装Hexo-Admin-插件" class="headerlink" title="安装Hexo Admin 插件"></a>安装Hexo Admin 插件</h1><p>在hexo目录下输入如下命令：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install --save hexo-admin</span><br><span class="line">hexo server -d</span><br></pre></td></tr></table></figure><h1 id="设置后台登录账号密码"><a href="#设置后台登录账号密码" class="headerlink" title="设置后台登录账号密码"></a>设置后台登录账号密码</h1><img src="/2019/02/26/hexo-admin安装/pasted-0.png" title="图1"><ul><li>浏览器访问 <a href="http://localhost:4000/admin" target="_blank" rel="noopener">http://localhost:4000/admin</a> ，并点击Settings</li><li>填好登录账号、密码和加密字符串，并将下方生成的内容粘贴到根目录_config.yml下</li></ul><h1 id="hexo中图片插入"><a href="#hexo中图片插入" class="headerlink" title="hexo中图片插入"></a>hexo中图片插入</h1><ul><li><p>设置config.yml的post_asset_folder为true，开启资源文件夹功能</p></li><li><p>通过相对路径标签引用资源，而不是markdown语法引用。{\% asset_img 1.png [title] \%}上面的“\”要去掉，这里因为是hexo的指令，不能直接显示在文章里，所以这里才加上。</p></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> hexo </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> hexo </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Hello World</title>
+      <link href="/2019/02/26/hello-world/"/>
+      <url>/2019/02/26/hello-world/</url>
+      
+        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> init </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
 </search>

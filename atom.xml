@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-03-08T05:14:19.525Z</updated>
+  <updated>2019-03-12T05:30:33.461Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>JVM如何加载.class文件</title>
+    <link href="http://yoursite.com/2019/03/12/JVM%E5%A6%82%E4%BD%95%E5%8A%A0%E8%BD%BD-class%E6%96%87%E4%BB%B6/"/>
+    <id>http://yoursite.com/2019/03/12/JVM如何加载-class文件/</id>
+    <published>2019-03-12T05:29:00.000Z</published>
+    <updated>2019-03-12T05:30:33.461Z</updated>
+    
+    <content type="html"><![CDATA[<p>jvm主要由Class Loader、Runtime Data Area、Execution Engine以及Native Interface这四个部分组成。它主要通过Class Loader将符合其格式要求的class文件加载到内存，并通过Execution Engine去解析class文件里的字节码并提交给操作系统去执行。</p><ul><li>Class Loader：依据特定格式，加载class文件到内存</li><li>Execution Engine：对命令进行解析</li><li>Native Interface：融合不同开发语言的原生库为Java所用（如Class.forName()方法）</li><li>Runtime Data Area：JVM内存空间结构模型</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;jvm主要由Class Loader、Runtime Data Area、Execution Engine以及Native Interface这四个部分组成。它主要通过Class Loader将符合其格式要求的class文件加载到内存，并通过Execution Engine
+      
+    
+    </summary>
+    
+      <category term="java" scheme="http://yoursite.com/categories/java/"/>
+    
+    
+      <category term="java" scheme="http://yoursite.com/tags/java/"/>
+    
+      <category term="jvm" scheme="http://yoursite.com/tags/jvm/"/>
+    
+  </entry>
   
   <entry>
     <title>谈谈ClassLoader</title>
