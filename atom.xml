@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-03-12T05:30:33.461Z</updated>
+  <updated>2019-03-19T09:00:03.452Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>修改jar中的内容</title>
+    <link href="http://yoursite.com/2019/03/19/%E4%BF%AE%E6%94%B9jar%E4%B8%AD%E7%9A%84%E5%86%85%E5%AE%B9/"/>
+    <id>http://yoursite.com/2019/03/19/修改jar中的内容/</id>
+    <published>2019-03-19T08:58:00.000Z</published>
+    <updated>2019-03-19T09:00:03.452Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="修改xml文件（亲测有效）"><a href="#修改xml文件（亲测有效）" class="headerlink" title="修改xml文件（亲测有效）"></a>修改xml文件（亲测有效）</h1><ol><li><p>在本地maven库找到jar，备份一下，解压出要修改的xml文件</p></li><li><p>进行内容修改</p></li><li><p>把改好的xml文件重新拖入jar包</p></li></ol><h1 id="想修改-覆盖jar里的方法"><a href="#想修改-覆盖jar里的方法" class="headerlink" title="想修改/覆盖jar里的方法"></a>想修改/覆盖jar里的方法</h1><ol><li><p>需要在你的src目录下新建一个同包名同类名的类（自己新建出来的类，起始同包同类名还不行，还需要那个类里面的方法必须和jar包的全部一致，不能缺少方法）</p></li><li><p>修改你想要修改的地方，最后编译输出的时候会优先使用你src下面的修改过的类，而不是优先使用Jar包里面对应方法的类，这样就达到了覆盖jar包方法了。</p></li></ol><p>参考：<a href="http://tieba.baidu.com/p/4507553753" target="_blank" rel="noopener">http://tieba.baidu.com/p/4507553753</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;修改xml文件（亲测有效）&quot;&gt;&lt;a href=&quot;#修改xml文件（亲测有效）&quot; class=&quot;headerlink&quot; title=&quot;修改xml文件（亲测有效）&quot;&gt;&lt;/a&gt;修改xml文件（亲测有效）&lt;/h1&gt;&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;在本地maven库找到jar，备份
+      
+    
+    </summary>
+    
+      <category term="java" scheme="http://yoursite.com/categories/java/"/>
+    
+    
+      <category term="java" scheme="http://yoursite.com/tags/java/"/>
+    
+  </entry>
   
   <entry>
     <title>JVM如何加载.class文件</title>
@@ -37,9 +63,9 @@
       <category term="java" scheme="http://yoursite.com/categories/java/"/>
     
     
-      <category term="java" scheme="http://yoursite.com/tags/java/"/>
-    
       <category term="jvm" scheme="http://yoursite.com/tags/jvm/"/>
+    
+      <category term="java" scheme="http://yoursite.com/tags/java/"/>
     
   </entry>
   
