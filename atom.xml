@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-03-22T08:20:50.815Z</updated>
+  <updated>2019-05-06T08:12:58.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Spring Boot CLI安装</title>
+    <link href="http://yoursite.com/2019/05/06/pring-Boot-CLI%E5%AE%89%E8%A3%85/"/>
+    <id>http://yoursite.com/2019/05/06/pring-Boot-CLI安装/</id>
+    <published>2019-05-06T08:02:36.000Z</published>
+    <updated>2019-05-06T08:12:58.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>WIN10环境：</p><ol><li>命令行界面<br>利用了起步依赖和自动配置,让人专注于代码本身能检测到使用了哪些类,要向Classpath添加哪些起步依赖才能运转起来,接着一系列自动配置就会接踵而来,确保启用springMVC和DispatherServlet,控制器就能响应HTTP请求了,是SpringBoot的非必要组成部分</li></ol><ol start="2"><li>最直接的方法:手工安装(WIN用户唯一安装方式)<br>下载地址:<br><a href="https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#getting-started-installing-the-cli" target="_blank" rel="noopener">https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#getting-started-installing-the-cli</a></li></ol><p>下载后,解压到任意目录.接着就是配置Spring Boot CLI的环境变量，我的电脑，属性，高级系统设置，环境变量，在系统变量Path中加入E:\spring-2.1.4.RELEASE\bin<br>这个时候，就安装完毕了，可以通过cmd运行spring–version 来验证是否安装成功，出现如下界面即代表安装成功</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;WIN10环境：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;命令行界面&lt;br&gt;利用了起步依赖和自动配置,让人专注于代码本身能检测到使用了哪些类,要向Classpath添加哪些起步依赖才能运转起来,接着一系列自动配置就会接踵而来,确保启用springMVC和DispatherServlet,
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>ClassLoader双亲委派机制</title>
