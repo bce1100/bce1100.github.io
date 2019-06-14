@@ -100,18 +100,17 @@
 
 
 
-  <meta name="description" content="ClassLoader的双亲委派机制双亲委派模型工作过程是：如果一个类加载器收到类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委派给父类加载器完成。每个类加载器都是如此，只有当父加载器在自己的搜索范围内找不到指定的类时（即ClassNotFoundException），子加载器才会尝试自己去加载。 1234567891011121314151617181920212223242526">
-<meta name="keywords" content="java">
+  <meta name="description" content="一、校验数字的表达式数字：^[0-9]*$ n位的数字：^\d{n}$ 至少n位的数字：^\d{n,}$ m-n位的数字：^\d{m,n}$ 零和非零开头的数字：^(0|[1-9][0-9]*)$ 非零开头的最多带两位小数的数字：^([1-9][0-9]*)+(.[0-9]{1,2})?$ 带1-2位小数的正数或负数：^(-)?\d+(.\d{1,2})$ 正数、负数、和小数：^(-|+)?\d+">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ClassLoader双亲委派机制">
-<meta property="og:url" content="http://yoursite.com/2019/03/22/lassLoader双亲委派机制/index.html">
+<meta property="og:title" content="常用正则表达式公式总结">
+<meta property="og:url" content="http://yoursite.com/2019/06/14/用正则表达式公式总结-1/index.html">
 <meta property="og:site_name" content="熬夜企鹅">
-<meta property="og:description" content="ClassLoader的双亲委派机制双亲委派模型工作过程是：如果一个类加载器收到类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委派给父类加载器完成。每个类加载器都是如此，只有当父加载器在自己的搜索范围内找不到指定的类时（即ClassNotFoundException），子加载器才会尝试自己去加载。 1234567891011121314151617181920212223242526">
+<meta property="og:description" content="一、校验数字的表达式数字：^[0-9]*$ n位的数字：^\d{n}$ 至少n位的数字：^\d{n,}$ m-n位的数字：^\d{m,n}$ 零和非零开头的数字：^(0|[1-9][0-9]*)$ 非零开头的最多带两位小数的数字：^([1-9][0-9]*)+(.[0-9]{1,2})?$ 带1-2位小数的正数或负数：^(-)?\d+(.\d{1,2})$ 正数、负数、和小数：^(-|+)?\d+">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-22T08:20:50.815Z">
+<meta property="og:updated_time" content="2019-06-14T08:49:55.922Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ClassLoader双亲委派机制">
-<meta name="twitter:description" content="ClassLoader的双亲委派机制双亲委派模型工作过程是：如果一个类加载器收到类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委派给父类加载器完成。每个类加载器都是如此，只有当父加载器在自己的搜索范围内找不到指定的类时（即ClassNotFoundException），子加载器才会尝试自己去加载。 1234567891011121314151617181920212223242526">
+<meta name="twitter:title" content="常用正则表达式公式总结">
+<meta name="twitter:description" content="一、校验数字的表达式数字：^[0-9]*$ n位的数字：^\d{n}$ 至少n位的数字：^\d{n,}$ m-n位的数字：^\d{m,n}$ 零和非零开头的数字：^(0|[1-9][0-9]*)$ 非零开头的最多带两位小数的数字：^([1-9][0-9]*)+(.[0-9]{1,2})?$ 带1-2位小数的正数或负数：^(-)?\d+(.\d{1,2})$ 正数、负数、和小数：^(-|+)?\d+">
 
 
 
@@ -120,7 +119,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/03/22/lassLoader双亲委派机制/">
+  <link rel="canonical" href="http://yoursite.com/2019/06/14/用正则表达式公式总结-1/">
 
 
 
@@ -130,7 +129,7 @@
   };
 </script>
 
-  <title>ClassLoader双亲委派机制 | 熬夜企鹅</title>
+  <title>常用正则表达式公式总结 | 熬夜企鹅</title>
   
 
 
@@ -382,7 +381,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/22/lassLoader双亲委派机制/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/14/用正则表达式公式总结-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="bce1100">
@@ -399,7 +398,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">ClassLoader双亲委派机制
+          <h1 class="post-title" itemprop="name headline">常用正则表达式公式总结
 
               
             
@@ -425,7 +424,7 @@
                 
               
 
-              <time title="创建时间：2019-03-22 16:20:00 / 修改时间：16:20:50" itemprop="dateCreated datePublished" datetime="2019-03-22T16:20:00+08:00">2019-03-22</time>
+              <time title="创建时间：2019-06-14 16:45:07 / 修改时间：16:49:55" itemprop="dateCreated datePublished" datetime="2019-06-14T16:45:07+08:00">2019-06-14</time>
             
 
             
@@ -435,24 +434,6 @@
             
           </span>
 
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -466,8 +447,8 @@
                 </span>
             
                 <span class="post-meta-item-text">评论数：</span>
-                <a href="/2019/03/22/lassLoader双亲委派机制/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/22/lassLoader双亲委派机制/" itemprop="commentCount"></span>
+                <a href="/2019/06/14/用正则表达式公式总结-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/06/14/用正则表达式公式总结-1/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -496,7 +477,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">2.5k</span>
+                <span title="本文字数">2.7k</span>
               
 
               
@@ -530,19 +511,58 @@
       
 
       
-        <h1 id="ClassLoader的双亲委派机制"><a href="#ClassLoader的双亲委派机制" class="headerlink" title="ClassLoader的双亲委派机制"></a>ClassLoader的双亲委派机制</h1><p>双亲委派模型工作过程是：如果一个类加载器收到类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委派给父类加载器完成。每个类加载器都是如此，只有当父加载器在自己的搜索范围内找不到指定的类时（即<code>ClassNotFoundException</code>），子加载器才会尝试自己去加载。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Class&lt;?&gt; loadClass(String name) <span class="keyword">throws</span> ClassNotFoundException &#123;</span><br><span class="line">    <span class="keyword">return</span> loadClass(name, <span class="keyword">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span> Class&lt;?&gt; loadClass(String name, <span class="keyword">boolean</span> resolve)</span><br><span class="line">    <span class="keyword">throws</span> ClassNotFoundException</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (getClassLoadingLock(name)) &#123;</span><br><span class="line">        <span class="comment">// First, check if the class has already been loaded</span></span><br><span class="line">        Class&lt;?&gt; c = findLoadedClass(name);</span><br><span class="line">        <span class="keyword">if</span> (c == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">long</span> t0 = System.nanoTime();</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (parent != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    c = parent.loadClass(name, <span class="keyword">false</span>);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    c = findBootstrapClassOrNull(name);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">                <span class="comment">// ClassNotFoundException thrown if class not found</span></span><br><span class="line">                <span class="comment">// from the non-null parent class loader</span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (c == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="comment">// If still not found, then invoke findClass in order</span></span><br><span class="line">                <span class="comment">// to find the class.</span></span><br><span class="line">                <span class="keyword">long</span> t1 = System.nanoTime();</span><br><span class="line">                c = findClass(name);</span><br><span class="line"></span><br><span class="line">                <span class="comment">// this is the defining class loader; record the stats</span></span><br><span class="line">                sun.misc.PerfCounter.getParentDelegationTime().addTime(t1 - t0);</span><br><span class="line">                sun.misc.PerfCounter.getFindClassTime().addElapsedTimeFrom(t1);</span><br><span class="line">                sun.misc.PerfCounter.getFindClasses().increment();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (resolve) &#123;</span><br><span class="line">            resolveClass(c);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> c;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>从源码(jdk1.8)中看loadClass这个方法，注释上已经说的很清楚了，调用findLoadedClass方法检查有没有加载过这个类，如果没有就调用parent的loadClass方法，从底层一级级往上。如果找到最后都没有ClassLoader加载过这个类，就调用findClass方法查找这个类，然后又从顶层一级级往下调用findClass方法，如果有自定义ClassLoader的话最后会走到自定义的findClass方法，最终都没找到就抛出ClassNotFoundException。</p>
-<h2 id="为什么要使用双亲委派机制去加载类"><a href="#为什么要使用双亲委派机制去加载类" class="headerlink" title="为什么要使用双亲委派机制去加载类"></a>为什么要使用双亲委派机制去加载类</h2><ol>
-<li>比如两个类A和类B都要加载System类：</li>
-</ol>
-<ul>
-<li>如果不用委托而是自己加载自己的，那么类A就会加载一份System字节码，然后类B又会加载一份System字节码，<strong>这样内存中就出现了两份System字节码。</strong></li>
-<li>如果使用委托机制，会递归的向父类查找，也就是<strong>首选用Bootstrap尝试加载</strong>，如果找不到再向下。这里的System就能在Bootstrap中找到然后加载，如果此时类B也要加载System，也从Bootstrap开始，此时<strong>Bootstrap发现已经加载过了System那么直接返回内存中的System即可而不需要重新加载</strong>，这样内存中就只有一份System的字节码了。</li>
-</ul>
-<ol start="2">
-<li>如果有人想篡改System类，如String.java，在这种机制下这些系统的类已经被Bootstrap classLoader加载过了，就算自己重写，也总是使用Java系统提供的System，自己写的System类根本没有机会得到加载。从一定程度上防止了危险代码的植入。</li>
-</ol>
+        <h1 id="一、校验数字的表达式"><a href="#一、校验数字的表达式" class="headerlink" title="一、校验数字的表达式"></a>一、校验数字的表达式</h1><h2 id="数字："><a href="#数字：" class="headerlink" title="数字："></a>数字：</h2><p>^[0-9]*$</p>
+<h2 id="n位的数字："><a href="#n位的数字：" class="headerlink" title="n位的数字："></a>n位的数字：</h2><p>^\d{n}$</p>
+<h2 id="至少n位的数字："><a href="#至少n位的数字：" class="headerlink" title="至少n位的数字："></a>至少n位的数字：</h2><p>^\d{n,}$</p>
+<h2 id="m-n位的数字："><a href="#m-n位的数字：" class="headerlink" title="m-n位的数字："></a>m-n位的数字：</h2><p>^\d{m,n}$</p>
+<h2 id="零和非零开头的数字："><a href="#零和非零开头的数字：" class="headerlink" title="零和非零开头的数字："></a>零和非零开头的数字：</h2><p>^(0|[1-9][0-9]*)$</p>
+<h2 id="非零开头的最多带两位小数的数字："><a href="#非零开头的最多带两位小数的数字：" class="headerlink" title="非零开头的最多带两位小数的数字："></a>非零开头的最多带两位小数的数字：</h2><p>^([1-9][0-9]*)+(.[0-9]{1,2})?$</p>
+<h2 id="带1-2位小数的正数或负数："><a href="#带1-2位小数的正数或负数：" class="headerlink" title="带1-2位小数的正数或负数："></a>带1-2位小数的正数或负数：</h2><p>^(-)?\d+(.\d{1,2})$</p>
+<h2 id="正数、负数、和小数："><a href="#正数、负数、和小数：" class="headerlink" title="正数、负数、和小数："></a>正数、负数、和小数：</h2><p>^(-|+)?\d+(.\d+)?$</p>
+<h2 id="有两位小数的正实数："><a href="#有两位小数的正实数：" class="headerlink" title="有两位小数的正实数："></a>有两位小数的正实数：</h2><p>^[0-9]+(.[0-9]{2})?$</p>
+<h2 id="有1-3位小数的正实数："><a href="#有1-3位小数的正实数：" class="headerlink" title="有1~3位小数的正实数："></a>有1~3位小数的正实数：</h2><p>^[0-9]+(.[0-9]{1,3})?$</p>
+<h2 id="非零的正整数："><a href="#非零的正整数：" class="headerlink" title="非零的正整数："></a>非零的正整数：</h2><p>^[1-9]\d*$ 或 ^([1-9][0-9]*){1,3}$ 或 ^+?[1-9][0-9]*$</p>
+<h2 id="非零的负整数："><a href="#非零的负整数：" class="headerlink" title="非零的负整数："></a>非零的负整数：</h2><p>^-[1-9][]0-9”*$ 或 ^-[1-9]\d*$</p>
+<h2 id="非负整数："><a href="#非负整数：" class="headerlink" title="非负整数："></a>非负整数：</h2><p>^\d+$ 或 ^[1-9]\d*|0$</p>
+<h2 id="非正整数："><a href="#非正整数：" class="headerlink" title="非正整数："></a>非正整数：</h2><p>^-[1-9]\d*|0$ 或 ^((-\d+)|(0+))$</p>
+<h2 id="非负浮点数："><a href="#非负浮点数：" class="headerlink" title="非负浮点数："></a>非负浮点数：</h2><p>^\d+(.\d+)?$ 或 ^[1-9]\d*.\d*|0.\d*[1-9]\d*|0?.0+|0$</p>
+<h2 id="非正浮点数："><a href="#非正浮点数：" class="headerlink" title="非正浮点数："></a>非正浮点数：</h2><p>^((-\d+(.\d+)?)|(0+(.0+)?))$ 或 ^(-([1-9]\d*.\d*|0.\d*[1-9]\d*))|0?.0+|0$</p>
+<h2 id="正浮点数："><a href="#正浮点数：" class="headerlink" title="正浮点数："></a>正浮点数：</h2><p>^[1-9]\d*.\d*|0.\d*[1-9]\d*$ 或 ^(([0-9]+.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*.[0-9]+)|([0-9]*[1-9][0-9]*))$</p>
+<h2 id="负浮点数："><a href="#负浮点数：" class="headerlink" title="负浮点数："></a>负浮点数：</h2><p>^-([1-9]\d*.\d*|0.\d*[1-9]\d*)$ 或 ^(-(([0-9]+.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*.[0-9]+)|([0-9]*[1-9][0-9]*)))$</p>
+<h2 id="浮点数："><a href="#浮点数：" class="headerlink" title="浮点数："></a>浮点数：</h2><p>^(-?\d+)(.\d+)?$ 或 ^-?([1-9]\d*.\d*|0.\d*[1-9]\d*|0?.0+|0)$</p>
+<h1 id="二、校验字符的表达式"><a href="#二、校验字符的表达式" class="headerlink" title="二、校验字符的表达式"></a>二、校验字符的表达式</h1><h2 id="汉字："><a href="#汉字：" class="headerlink" title="汉字："></a>汉字：</h2><p>^[\u4e00-\u9fa5]{0,}$</p>
+<h2 id="英文和数字："><a href="#英文和数字：" class="headerlink" title="英文和数字："></a>英文和数字：</h2><p>^[A-Za-z0-9]+$ 或 ^[A-Za-z0-9]{4,40}$</p>
+<h2 id="长度为3-20的所有字符："><a href="#长度为3-20的所有字符：" class="headerlink" title="长度为3-20的所有字符："></a>长度为3-20的所有字符：</h2><p>^.{3,20}$</p>
+<h2 id="由26个英文字母组成的字符串："><a href="#由26个英文字母组成的字符串：" class="headerlink" title="由26个英文字母组成的字符串："></a>由26个英文字母组成的字符串：</h2><p>^[A-Za-z]+$</p>
+<h2 id="由26个大写英文字母组成的字符串："><a href="#由26个大写英文字母组成的字符串：" class="headerlink" title="由26个大写英文字母组成的字符串："></a>由26个大写英文字母组成的字符串：</h2><p>^[A-Z]+$</p>
+<h2 id="由26个小写英文字母组成的字符串："><a href="#由26个小写英文字母组成的字符串：" class="headerlink" title="由26个小写英文字母组成的字符串："></a>由26个小写英文字母组成的字符串：</h2><p>^[a-z]+$</p>
+<h2 id="由数字和26个英文字母组成的字符串："><a href="#由数字和26个英文字母组成的字符串：" class="headerlink" title="由数字和26个英文字母组成的字符串："></a>由数字和26个英文字母组成的字符串：</h2><p>^[A-Za-z0-9]+$</p>
+<h2 id="由数字、26个英文字母或者下划线组成的字符串："><a href="#由数字、26个英文字母或者下划线组成的字符串：" class="headerlink" title="由数字、26个英文字母或者下划线组成的字符串："></a>由数字、26个英文字母或者下划线组成的字符串：</h2><p>^\w+$ 或 ^\w{3,20}$</p>
+<h2 id="中文、英文、数字包括下划线："><a href="#中文、英文、数字包括下划线：" class="headerlink" title="中文、英文、数字包括下划线："></a>中文、英文、数字包括下划线：</h2><p>^[\u4E00-\u9FA5A-Za-z0-9_]+$</p>
+<h2 id="中文、英文、数字但不包括下划线等符号："><a href="#中文、英文、数字但不包括下划线等符号：" class="headerlink" title="中文、英文、数字但不包括下划线等符号："></a>中文、英文、数字但不包括下划线等符号：</h2><p>^[\u4E00-\u9FA5A-Za-z0-9]+$ 或 ^[\u4E00-\u9FA5A-Za-z0-9]{2,20}$</p>
+<h2 id="禁止输入含有-的字符："><a href="#禁止输入含有-的字符：" class="headerlink" title="禁止输入含有~的字符："></a>禁止输入含有~的字符：</h2><p>[^~\x22]+</p>
+<p>三、特殊需求表达式</p>
+<h2 id="Email地址："><a href="#Email地址：" class="headerlink" title="Email地址："></a>Email地址：</h2><p>^\w+([-+.]\w+)*@\w+([-.]\w+)*.\w+([-.]\w+)*$</p>
+<h2 id="域名："><a href="#域名：" class="headerlink" title="域名："></a>域名：</h2><p>[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(/.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+/.?</p>
+<h2 id="InternetURL："><a href="#InternetURL：" class="headerlink" title="InternetURL："></a>InternetURL：</h2><p>[a-zA-z]+://[^\s]* 或 ^http://([\w-]+.)+[\w-]+(/[\w-./?%&amp;=]*)?$</p>
+<h2 id="手机号码："><a href="#手机号码：" class="headerlink" title="手机号码："></a>手机号码：</h2><p>^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$</p>
+<h2 id="国内电话号码-0511-4405222、021-87888822-："><a href="#国内电话号码-0511-4405222、021-87888822-：" class="headerlink" title="国内电话号码(0511-4405222、021-87888822)："></a>国内电话号码(0511-4405222、021-87888822)：</h2><p>\d{3}-\d{8}|\d{4}-\d{7}</p>
+<h2 id="电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）"><a href="#电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）" class="headerlink" title="电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）:"></a>电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）:</h2><p> ((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)</p>
+<h2 id="身份证号-15位、18位数字-，最后一位是校验位，可能为数字或字符X："><a href="#身份证号-15位、18位数字-，最后一位是校验位，可能为数字或字符X：" class="headerlink" title="身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X："></a>身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X：</h2><p>(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)</p>
+<h2 id="帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线-："><a href="#帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线-：" class="headerlink" title="帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)："></a>帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)：</h2><p>^[a-zA-Z][a-zA-Z0-9_]{4,15}$</p>
+<h2 id="密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线-："><a href="#密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线-：" class="headerlink" title="密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)："></a>密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)：</h2><p>^[a-zA-Z]\w{5,17}$</p>
+<h2 id="强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在-8-10-之间-："><a href="#强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在-8-10-之间-：" class="headerlink" title="强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)："></a>强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)：</h2><p>^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,10}$</p>
+<h2 id="强密码-必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间-："><a href="#强密码-必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间-：" class="headerlink" title="强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)："></a>强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)：</h2><p>^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$</p>
+<h2 id="日期格式："><a href="#日期格式：" class="headerlink" title="日期格式："></a>日期格式：</h2><p>^\d{4}-\d{1,2}-\d{1,2}</p>
+<h2 id="一年的12个月-01～09和1～12-："><a href="#一年的12个月-01～09和1～12-：" class="headerlink" title="一年的12个月(01～09和1～12)："></a>一年的12个月(01～09和1～12)：</h2><p>^(0?[1-9]|1[0-2])$</p>
+<h2 id="一个月的31天-01～09和1～31-："><a href="#一个月的31天-01～09和1～31-：" class="headerlink" title="一个月的31天(01～09和1～31)："></a>一个月的31天(01～09和1～31)：</h2><p>^((0?[1-9])|((1|2)[0-9])|30|31)$</p>
+<h2 id="xml文件："><a href="#xml文件：" class="headerlink" title="xml文件："></a>xml文件：</h2><p>^([a-zA-Z]+-?)+[a-zA-Z0-9]+\.[x|X][m|M][l|L]$</p>
+<h2 id="中文字符的正则表达式："><a href="#中文字符的正则表达式：" class="headerlink" title="中文字符的正则表达式："></a>中文字符的正则表达式：</h2><p>[\u4e00-\u9fa5]</p>
+<h2 id="空白行的正则表达式："><a href="#空白行的正则表达式：" class="headerlink" title="空白行的正则表达式："></a>空白行的正则表达式：</h2><p>\n\s*\r (可以用来删除空白行)</p>
+<h2 id="HTML标记的正则表达式："><a href="#HTML标记的正则表达式：" class="headerlink" title="HTML标记的正则表达式："></a>HTML标记的正则表达式：</h2><p>&lt;(\S*?)[^&gt;]*&gt;.*?|&lt;.*? /&gt; ( 首尾空白字符的正则表达式：^\s*|\s*$或(^\s*)|(\s*$) (可以用来删除行首行尾的空白字符(包括空格、制表符、换页符等等)，非常有用的表达式)</p>
+<h2 id="腾讯QQ号："><a href="#腾讯QQ号：" class="headerlink" title="腾讯QQ号："></a>腾讯QQ号：</h2><p>[1-9][0-9]{4,} (腾讯QQ号从10000开始)</p>
+<h2 id="中国邮政编码："><a href="#中国邮政编码：" class="headerlink" title="中国邮政编码："></a>中国邮政编码：</h2><p>[1-9]\d{5}(?!\d) (中国邮政编码为6位数字)</p>
+<h2 id="IP地址："><a href="#IP地址：" class="headerlink" title="IP地址："></a>IP地址：</h2><p>((?:(?:25[0-5]|2[0-4]\d|[01]?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d?\d))</p>
 
       
     </div>
@@ -564,12 +584,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i> java</a>
-          
-        </div>
-      
 
       
       
@@ -579,8 +593,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/19/修改jar中的内容/" rel="next" title="修改jar中的内容">
-                <i class="fa fa-chevron-left"></i> 修改jar中的内容
+              <a href="/2019/05/06/Spring-Boot-CLI安装/" rel="next" title="Spring Boot CLI安装">
+                <i class="fa fa-chevron-left"></i> Spring Boot CLI安装
               </a>
             
           </div>
@@ -588,10 +602,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/05/06/Spring-Boot-CLI安装/" rel="prev" title="Spring Boot CLI安装">
-                Spring Boot CLI安装 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -802,7 +812,7 @@ setInterval("createtime()",250);
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ClassLoader的双亲委派机制"><span class="nav-number">1.</span> <span class="nav-text">ClassLoader的双亲委派机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要使用双亲委派机制去加载类"><span class="nav-number">1.1.</span> <span class="nav-text">为什么要使用双亲委派机制去加载类</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、校验数字的表达式"><span class="nav-number">1.</span> <span class="nav-text">一、校验数字的表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数字："><span class="nav-number">1.1.</span> <span class="nav-text">数字：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#n位的数字："><span class="nav-number">1.2.</span> <span class="nav-text">n位的数字：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#至少n位的数字："><span class="nav-number">1.3.</span> <span class="nav-text">至少n位的数字：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#m-n位的数字："><span class="nav-number">1.4.</span> <span class="nav-text">m-n位的数字：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#零和非零开头的数字："><span class="nav-number">1.5.</span> <span class="nav-text">零和非零开头的数字：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#非零开头的最多带两位小数的数字："><span class="nav-number">1.6.</span> <span class="nav-text">非零开头的最多带两位小数的数字：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#带1-2位小数的正数或负数："><span class="nav-number">1.7.</span> <span class="nav-text">带1-2位小数的正数或负数：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正数、负数、和小数："><span class="nav-number">1.8.</span> <span class="nav-text">正数、负数、和小数：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#有两位小数的正实数："><span class="nav-number">1.9.</span> <span class="nav-text">有两位小数的正实数：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#有1-3位小数的正实数："><span class="nav-number">1.10.</span> <span class="nav-text">有1~3位小数的正实数：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#非零的正整数："><span class="nav-number">1.11.</span> <span class="nav-text">非零的正整数：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#非零的负整数："><span class="nav-number">1.12.</span> <span class="nav-text">非零的负整数：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#非负整数："><span class="nav-number">1.13.</span> <span class="nav-text">非负整数：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#非正整数："><span class="nav-number">1.14.</span> <span class="nav-text">非正整数：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#非负浮点数："><span class="nav-number">1.15.</span> <span class="nav-text">非负浮点数：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#非正浮点数："><span class="nav-number">1.16.</span> <span class="nav-text">非正浮点数：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正浮点数："><span class="nav-number">1.17.</span> <span class="nav-text">正浮点数：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#负浮点数："><span class="nav-number">1.18.</span> <span class="nav-text">负浮点数：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浮点数："><span class="nav-number">1.19.</span> <span class="nav-text">浮点数：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、校验字符的表达式"><span class="nav-number">2.</span> <span class="nav-text">二、校验字符的表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#汉字："><span class="nav-number">2.1.</span> <span class="nav-text">汉字：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#英文和数字："><span class="nav-number">2.2.</span> <span class="nav-text">英文和数字：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#长度为3-20的所有字符："><span class="nav-number">2.3.</span> <span class="nav-text">长度为3-20的所有字符：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#由26个英文字母组成的字符串："><span class="nav-number">2.4.</span> <span class="nav-text">由26个英文字母组成的字符串：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#由26个大写英文字母组成的字符串："><span class="nav-number">2.5.</span> <span class="nav-text">由26个大写英文字母组成的字符串：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#由26个小写英文字母组成的字符串："><span class="nav-number">2.6.</span> <span class="nav-text">由26个小写英文字母组成的字符串：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#由数字和26个英文字母组成的字符串："><span class="nav-number">2.7.</span> <span class="nav-text">由数字和26个英文字母组成的字符串：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#由数字、26个英文字母或者下划线组成的字符串："><span class="nav-number">2.8.</span> <span class="nav-text">由数字、26个英文字母或者下划线组成的字符串：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中文、英文、数字包括下划线："><span class="nav-number">2.9.</span> <span class="nav-text">中文、英文、数字包括下划线：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中文、英文、数字但不包括下划线等符号："><span class="nav-number">2.10.</span> <span class="nav-text">中文、英文、数字但不包括下划线等符号：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#禁止输入含有-的字符："><span class="nav-number">2.11.</span> <span class="nav-text">禁止输入含有~的字符：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Email地址："><span class="nav-number">2.12.</span> <span class="nav-text">Email地址：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#域名："><span class="nav-number">2.13.</span> <span class="nav-text">域名：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#InternetURL："><span class="nav-number">2.14.</span> <span class="nav-text">InternetURL：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#手机号码："><span class="nav-number">2.15.</span> <span class="nav-text">手机号码：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#国内电话号码-0511-4405222、021-87888822-："><span class="nav-number">2.16.</span> <span class="nav-text">国内电话号码(0511-4405222、021-87888822)：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）"><span class="nav-number">2.17.</span> <span class="nav-text">电话号码正则表达式（支持手机号码，3-4位区号，7-8位直播号码，1－4位分机号）:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#身份证号-15位、18位数字-，最后一位是校验位，可能为数字或字符X："><span class="nav-number">2.18.</span> <span class="nav-text">身份证号(15位、18位数字)，最后一位是校验位，可能为数字或字符X：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#帐号是否合法-字母开头，允许5-16字节，允许字母数字下划线-："><span class="nav-number">2.19.</span> <span class="nav-text">帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#密码-以字母开头，长度在6-18之间，只能包含字母、数字和下划线-："><span class="nav-number">2.20.</span> <span class="nav-text">密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#强密码-必须包含大小写字母和数字的组合，不能使用特殊字符，长度在-8-10-之间-："><span class="nav-number">2.21.</span> <span class="nav-text">强密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#强密码-必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间-："><span class="nav-number">2.22.</span> <span class="nav-text">强密码(必须包含大小写字母和数字的组合，可以使用特殊字符，长度在8-10之间)：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#日期格式："><span class="nav-number">2.23.</span> <span class="nav-text">日期格式：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一年的12个月-01～09和1～12-："><span class="nav-number">2.24.</span> <span class="nav-text">一年的12个月(01～09和1～12)：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个月的31天-01～09和1～31-："><span class="nav-number">2.25.</span> <span class="nav-text">一个月的31天(01～09和1～31)：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xml文件："><span class="nav-number">2.26.</span> <span class="nav-text">xml文件：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中文字符的正则表达式："><span class="nav-number">2.27.</span> <span class="nav-text">中文字符的正则表达式：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#空白行的正则表达式："><span class="nav-number">2.28.</span> <span class="nav-text">空白行的正则表达式：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTML标记的正则表达式："><span class="nav-number">2.29.</span> <span class="nav-text">HTML标记的正则表达式：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#腾讯QQ号："><span class="nav-number">2.30.</span> <span class="nav-text">腾讯QQ号：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中国邮政编码："><span class="nav-number">2.31.</span> <span class="nav-text">中国邮政编码：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IP地址："><span class="nav-number">2.32.</span> <span class="nav-text">IP地址：</span></a></li></ol></li></ol></div>
             
 
           </div>
